@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 11:58:28 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/15 12:02:39 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/15 21:28:07 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define IOPERAND_HPP
 
 #include <iostream>
+#include <vector>
 
 class IOperand {
    public:

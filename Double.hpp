@@ -6,30 +6,40 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 12:08:13 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/15 12:08:58 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/15 21:43:38 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DOUBLE_HPP
 #define DOUBLE_HPP
 
-#include "IOperand.hpp"
+#include "Double.hpp"
 
 class Double : public IOperand {
    private:
+    double _val;
+
    public:
     class DoubleException : std::exception {
        public:
         DoubleException(void);
-        DoubleException(DoubleException const &);
-        DoubleException &operator=(DoubleException const &);
-        virtual const char *what() const throw();
+        DoubleException(DoubleException const&);
+        DoubleException& operator=(DoubleException const&);
+        virtual const char* what() const throw();
     };
 
     Double();
-    Double(Double const &);
-    Double &operator=(Double const &);
+    Double(Double const&);
+    Double& operator=(Double const&);
     ~Double();
+
+    int getPrecision(void) const;
+    Double const* operator+(Double const& rhs) const;
+    Double const* operator-(Double const& rhs) const;
+    Double const* operator*(Double const& rhs) const;
+    Double const* operator/(Double const& rhs) const;
+    Double const* operator%(Double const& rhs) const;
+    std::string const& toString(void) const;
 };
 
 #endif  //DOUBLE_HPP
