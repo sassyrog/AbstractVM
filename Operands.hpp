@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 14:16:29 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/16 20:06:21 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class Operands : public IOperand {
     T _val;
     eOperandType _type;
     std::string _string;
+    Factory _factory;
 
    public:
     class OperandsException : std::exception {
