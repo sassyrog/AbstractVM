@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Operands.cpp                                       :+:      :+:    :+:   */
+/*   Factory.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/16 10:45:36 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 10:45:43 by Roger Ndaba      ###   ########.fr       */
+/*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
+/*   Updated: 2019/06/16 12:44:56 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Operands.hpp"
+#include "Factory.hpp"
 
-Operands::Operands() {}
+Factory::Factory() {}
 
-Operands::OperandsException::OperandsException() {}
+Factory::FactoryException::FactoryException() {}
 
-Operands::OperandsException::OperandsException(Operands::OperandsException const& copy) {
+Factory::FactoryException::FactoryException(Factory::FactoryException const& copy) {
     *this = copy;
 }
 
-const char* Operands::OperandsException::what() const throw() {
+const char* Factory::FactoryException::what() const throw() {
     return ("\033[31mSome Exception\033[0m");
 }
 
-Operands::OperandsException& Operands::OperandsException::operator=(Operands::OperandsException const& rhs) {
+Factory::FactoryException& Factory::FactoryException::operator=(Factory::FactoryException const& rhs) {
     if (this != &rhs) {
     }
     return *this;
 }
 
-Operands::~Operands() {}
+Factory::~Factory() {}
 
-Operands::Operands(Operands const& copy) {
+Factory::Factory(Factory const& copy) {
     *this = copy;
 };
 
-Operands& Operands::operator=(Operands const& rhs) {
+Factory& Factory::operator=(Factory const& rhs) {
     if (this != &rhs) {
     }
     return *this;
