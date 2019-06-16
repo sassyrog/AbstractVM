@@ -6,16 +6,16 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 12:08:13 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/15 21:43:38 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/16 09:30:18 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DOUBLE_HPP
 #define DOUBLE_HPP
 
-#include "Double.hpp"
+#include "IOperand.hpp"
 
-class Double : public IOperand {
+class Double : public IOperand<double> {
    private:
     double _val;
 

@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 21:34:17 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/15 21:42:47 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/16 08:47:56 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ Double& Double::operator=(Double const& rhs) {
     return *this;
 }
 
-int getPrecision(void) const {
-    return this->_precision;
-};
+// int getPrecision(void) const {
+//     return this->_precision;
+// };
 Double const* Double::operator+(Double const& rhs) const {
 
 };
@@ -62,6 +62,6 @@ Double const* Double::operator/(Double const& rhs) const {
 Double const* Double::operator%(Double const& rhs) const {
 
 };
-std::string const& toString(void) const {
+// std::string const& toString(void) const {
 
-};
+// };
