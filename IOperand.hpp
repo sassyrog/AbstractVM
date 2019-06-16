@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 11:58:28 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 10:07:17 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/16 11:39:06 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,20 @@ enum eOperandType {
     Int8,
     Int16,
     Int32,
-    Doble,
-    Float
+    Float,
+    Doble
 };
 
 class IOperand {
    public:
-    IOperand();
-    IOperand(IOperand const&);
-    IOperand& operator=(IOperand const&);
-    virtual int getPrecision(void) const = 0;
-    virtual eOperandType getType(void) const = 0;
-    virtual IOperand const* operator+(IOperand const& rhs) const = 0;
-    virtual IOperand const* operator-(IOperand const& rhs) const = 0;
-    virtual IOperand const* operator*(IOperand const& rhs) const = 0;
-    virtual IOperand const* operator/(IOperand const& rhs) const = 0;
-    virtual IOperand const* operator%(IOperand const& rhs) const = 0;
-    virtual std::string const& toString(void) const = 0;
+    virtual int getPrecision(void) const = 0;                          // Precision of the type of the instance
+    virtual eOperandType getType(void) const = 0;                      // Type of the instance
+    virtual IOperand const* operator+(IOperand const& rhs) const = 0;  // Sum
+    virtual IOperand const* operator-(IOperand const& rhs) const = 0;  // Difference
+    virtual IOperand const* operator*(IOperand const& rhs) const = 0;  // Product
+    virtual IOperand const* operator/(IOperand const& rhs) const = 0;  // Quotient
+    virtual IOperand const* operator%(IOperand const& rhs) const = 0;  // Modulo
+    virtual std::string const& toString(void) const = 0;               // String representation of the instance
     virtual ~IOperand(void) {}
 };
 #endif  // !IOPERAND_HPP
