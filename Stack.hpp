@@ -6,18 +6,14 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 21:25:52 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/15 21:28:44 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/16 10:07:48 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include "Double.hpp"
-#include "Float.hpp"
-#include "Int16.hpp"
-#include "Int32.hpp"
-#include "Int8.hpp"
+#include "IOperand.hpp"
 
 class Stack {
    private:
