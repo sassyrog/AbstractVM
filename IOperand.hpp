@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 11:58:28 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 11:39:06 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/16 14:51:54 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define IOPERAND_HPP
 
 #include <iostream>
+#include <map>
 #include <vector>
 
 enum eOperandType {
@@ -21,7 +22,7 @@ enum eOperandType {
     Int16,
     Int32,
     Float,
-    Doble
+    Double
 };
 
 class IOperand {

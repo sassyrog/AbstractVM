@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 13:32:36 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/16 14:16:29 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ class Operands : public IOperand {
    private:
     T _val;
     eOperandType _type;
+    std::string _string;
 
    public:
     class OperandsException : std::exception {
@@ -50,18 +51,31 @@ class Operands : public IOperand {
     Operands& operator=(Operands const&){};
     ~Operands(){};
 
-    int getPrecision(void) const = 0;
-    eOperandType getType(void) {
-        return this->_type;
-    };
-    IOperand const* operator+(IOperand const& rhs){
+    int getPrecision(void) const {
 
     };
-    IOperand const* operator-(IOperand const& rhs) const = 0;
-    IOperand const* operator*(IOperand const& rhs) const = 0;
-    IOperand const* operator/(IOperand const& rhs) const = 0;
-    IOperand const* operator%(IOperand const& rhs) const = 0;
-    std::string const& toString(void) const = 0;
+
+    eOperandType getType(void) const {
+        return this->_type;
+    };
+    IOperand const* operator+(IOperand const& rhs) const {
+
+    };
+    IOperand const* operator-(IOperand const& rhs) const {
+
+    };
+    IOperand const* operator*(IOperand const& rhs) const {
+
+    };
+    IOperand const* operator/(IOperand const& rhs) const {
+
+    };
+    IOperand const* operator%(IOperand const& rhs) const {
+
+    };
+    std::string const& toString(void) const {
+        return this->_string;
+    };
 };
 
 #endif  //OPERANDS_HPP
