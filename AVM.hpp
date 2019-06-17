@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:01 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/17 12:52:15 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/17 14:37:41 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ class AVM {
    private:
     std::string _command;
     std::vector<T_AVM> _commands;
+    std::vector<IOperand *> _stack;
     // std::vector<std::string> ff;
 
    public:

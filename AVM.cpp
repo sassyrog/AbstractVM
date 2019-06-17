@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/17 12:59:40 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/17 14:09:52 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ AVM& AVM::operator=(AVM const& rhs) {
 }
 
 void AVM::init(void) {
-    std::regex act("\\W+(push|assert)\\W+((int(8|16|32)|double|float)(\\([0-9.fd]*\\)))(\\W+|$)");
-    // std::regex act("(push|pop|assert)\\W+((int(8|16|32)|double|float)(\\([0-9.fd]*\\)))(\\W+|$)");
+    std::regex actRe(
+        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|\
+        float)(\\([0-9.fd]*\\)))(\\W+|$)");
+    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod)(\\W+|$)");
     while (1) {
         std::getline(std::cin, this->_command);
-        if (std::regex_match(_command, act))
+        if (std::regex_match(_command, actRe) || std::regex_match(_command, mathRe))
             std::cout << "Yes" << std::endl;
         else
             std::cout << "No" << std::endl;
