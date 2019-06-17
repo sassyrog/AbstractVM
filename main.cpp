@@ -1,14 +1,11 @@
 #include <iostream>
 #include <regex>
-// #include "AVM.hpp"
+#include "AVM.hpp"
 
 int main(int ac, char *av[]) {
     std::string input;
     if (ac == 1) {
-        while (1) {
-            std::getline(std::cin, input);
-            std::cout << input << std::endl;
-        }
+        AVM avm;
     } else {
         std::cout << av[1] << std::endl;
     }
