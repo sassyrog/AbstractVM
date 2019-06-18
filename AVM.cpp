@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:49:37 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 15:16:17 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,9 @@ void AVM::init(void) {
             break;
         lineCount++;
         if (std::regex_match(_command, actRe)) {
-            std::cout << "Yes" << std::endl;
+            new Parser(_command, 1, lineCount);
         } else if (std::regex_match(_command, mathRe)) {
             new Parser(_command, 2, lineCount);
-            std::cout << "Yes" << std::endl;
         } else if (std::regex_match(_command, commRe)) {
             std::cout << "Yes" << std::endl;
         } else  // if ()

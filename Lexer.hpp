@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:31:18 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:45:51 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 15:07:59 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 typedef enum {
     DUMP,
     PUSH,
-    POP = 889,
+    POP,
     ASSERT,
     ADD,
     SUB,

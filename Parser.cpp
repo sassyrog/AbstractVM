@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:59:15 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 15:15:10 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ Parser::Parser() {
     _lexFuncs[PRINT] = &Parser::pPrint;
     _lexFuncs[EXIT] = &Parser::pExit;
     _lexFuncs[EXEC] = &Parser::pExecute;
+    this->_lexers = _lexer.getLexers();
 }
 
 Parser::Parser(std::string expr, short int exprType, int line) {
@@ -68,6 +69,7 @@ Parser& Parser::operator=(Parser const& rhs) {
 void Parser::pDump() {
 }
 void Parser::pPush() {
+    std::cout << "Hello there! - JG Zuma" << std::endl;
 }
 void Parser::pPop() {
     if (_stack.size() < 1)
@@ -96,13 +98,14 @@ void Parser::pExecute() {
 }
 
 void Parser::eval() {
-    lexFunctions::iterator it = this->_lexFuncs.begin();
-
-    std::cout << "HERE" << std::endl;
     try {
-        while (it != this->_lexFuncs.end()) {
-            (this->*it->second)();
-            it++;
+        this->_lexers = _lexer.getLexers();
+        for (unsigned long i = 0; i < _lexers.size(); i++) {
+            lexFunctions::iterator it;
+            it = this->_lexFuncs.find(_lexers[i].lexE);
+            if (it != _lexFuncs.end()) {
+                (this->*it->second)();
+            }
         }
     } catch (Parser::ParserException& e) {
         std::cerr << e.what() << '\n';
