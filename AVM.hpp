@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AVM.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:01 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/17 14:37:41 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 09:05:02 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define AVM_HPP
 
 #include "AVM.h"
+#include "Lexer.hpp"
 
 class AVM {
    private:
@@ -33,6 +34,7 @@ class AVM {
         AVMException(AVMException const &);
         AVMException &operator=(AVMException const &);
         virtual const char *what() const throw();
+        ~AVMException();
     };
 
     AVM();

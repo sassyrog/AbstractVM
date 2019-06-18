@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AVM.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/17 14:09:52 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 09:09:27 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ AVM::AVMException& AVM::AVMException::operator=(AVM::AVMException const& rhs) {
     return *this;
 }
 
+AVM::AVMException::~AVMException() {}
+
 AVM::~AVM() {}
 
 AVM::AVM(AVM const& copy) {
@@ -46,15 +48,17 @@ AVM& AVM::operator=(AVM const& rhs) {
 }
 
 void AVM::init(void) {
+    int lineCount = 0;
     std::regex actRe(
         "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|\
         float)(\\([0-9.fd]*\\)))(\\W+|$)");
-    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod)(\\W+|$)");
+    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump)(\\W+|$)");
     while (1) {
         std::getline(std::cin, this->_command);
+        lineCount++;
         if (std::regex_match(_command, actRe) || std::regex_match(_command, mathRe))
             std::cout << "Yes" << std::endl;
         else
-            std::cout << "No" << std::endl;
+            std::cout << "line " << lineCount << " - No" << std::endl;
     }
 }
