@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:31:18 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 12:05:31 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:02:28 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ class Lexer {
     Lexer &operator=(Lexer const &);
     ~Lexer();
     void lexExpression(std::string, short int, int);
+    std::vector<LexerT> &getLexers();
 };
 
 #endif  //LEXER_HPP

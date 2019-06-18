@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   Factory.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 15:08:57 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:15:47 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Factory.hpp"
 
 Factory::Factory() {
-    creators[Int8] = &Factory::createInt8;
-    creators[Int16] = &Factory::createInt16;
-    creators[Int32] = &Factory::createInt32;
-    creators[Float] = &Factory::createFloat;
-    creators[Double] = &Factory::createDouble;
+    _creators[Int8] = &Factory::createInt8;
+    _creators[Int16] = &Factory::createInt16;
+    _creators[Int32] = &Factory::createInt32;
+    _creators[Float] = &Factory::createFloat;
+    _creators[Double] = &Factory::createDouble;
 }
 
 IOperand const* Factory::createOperand(eOperandType type, std::string const& value) const {
     Creators::const_iterator it;
     IOperand const* io;
 
-    it = this->creators.find(type);
-    if (it != creators.end()) {
+    it = this->_creators.find(type);
+    if (it != _creators.end()) {
         io = (it->second()(value));
     }
     return io;

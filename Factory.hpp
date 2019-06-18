@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Factory.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 10:08:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 14:47:08 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:15:13 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef std::map<eOperandType, F> Creators;
 
 class Factory : public IOperand {
    private:
-    Creators creators;
+    Creators _creators;
 
     IOperand const *createInt8(std::string const &value) const;
     IOperand const *createInt16(std::string const &value) const;
