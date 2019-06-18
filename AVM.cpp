@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 11:49:16 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 13:48:55 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,19 @@ void AVM::init(void) {
     std::regex actRe(
         "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|\
         float)(\\([0-9.fd]*\\)))(\\W+|$)");
-    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump)(\\W+|$)");
+    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|;;)(\\W+|$)");
+    std::regex commRe("(\\W+|^)(;)(\\W+(\\S+|$))");
+
     while (1) {
         std::getline(std::cin, this->_command);
         lineCount++;
-        if (std::regex_match(_command, actRe) || std::regex_match(_command, mathRe)) {
-            size_t beg, pos = 0;
-            while ((beg = _command.find_first_not_of(std::string(" ()"), pos)) != std::string::npos) {
-                pos = _command.find_first_of(std::string(" ()"), beg + 1);
-                std::cout << _command.substr(beg, pos - beg) << std::endl;
-            }
+        if (std::regex_match(_command, actRe)) {
             std::cout << "Yes" << std::endl;
-        } else
+        } else if (std::regex_match(_command, mathRe)) {
+            std::cout << "Yes" << std::endl;
+        } else if (std::regex_match(_command, commRe)) {
+            std::cout << "Yes" << std::endl;
+        } else  // if ()
             std::cout << "line " << lineCount << " - No" << std::endl;
     }
 }
