@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:24:31 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:18:53 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:30:49 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 
 #include "Lexer.hpp"
 
-typedef void (Parser::*F)(void) const;
-typedef std::map<LexE, F> lexFunctions;
-
 class Parser {
+    typedef void (Parser::*F)(void);
+    typedef std::map<LexE, F> lexFunctions;
+
    private:
     static Lexer _lexer;
     std::vector<LexerT> _lexers;
+    std::vector<std::function<void(int)>> _toExecute;
     lexFunctions _lexFuncs;
+    std::vector<IOperand *> _stack;
 
     void pDump();
     void pPush();
@@ -52,6 +54,7 @@ class Parser {
     Parser(Parser const &);
     Parser &operator=(Parser const &);
     ~Parser();
+    void eval();
 };
 
 #endif  //PARSER_HPP

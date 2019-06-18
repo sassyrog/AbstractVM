@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:01 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 13:52:20 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:22:42 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ class AVM {
    private:
     std::string _command;
     Parser *_parser;
-    std::vector<IOperand *> _stack;
-    // std::vector<std::string> ff;
 
    public:
     class AVMException : std::exception {
