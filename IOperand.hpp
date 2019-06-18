@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IOperand.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 11:58:28 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/16 14:51:54 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 11:59:30 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

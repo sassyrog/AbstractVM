@@ -6,13 +6,33 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 08:59:54 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 12:21:47 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Lexer.hpp"
 
-Lexer::Lexer() {}
+Lexer::Lexer() {
+    _lexMap["dump"] = LexE::DUMP;
+    _lexMap["push"] = LexE::PUSH;
+    _lexMap["pop"] = LexE::POP;
+    _lexMap["assert"] = LexE::ASSERT;
+    _lexMap["add"] = LexE::ADD;
+    _lexMap["sub"] = LexE::SUB;
+    _lexMap["mul"] = LexE::MUL;
+    _lexMap["div"] = LexE::DIV;
+    _lexMap["mod"] = LexE::MOD;
+    _lexMap[";"] = LexE::COMMENT;
+    _lexMap["print"] = LexE::PRINT;
+    _lexMap["exit"] = LexE::EXIT;
+    _lexMap[";;"] = LexE::EXEC;
+
+    _operandMap["int8"] = eOperandType::Int8;
+    _operandMap["int16"] = eOperandType::Int16;
+    _operandMap["int32"] = eOperandType::Int32;
+    _operandMap["float"] = eOperandType::Float;
+    _operandMap["double"] = eOperandType::Double;
+}
 
 Lexer::LexerException::LexerException() {}
 
@@ -43,4 +63,20 @@ Lexer& Lexer::operator=(Lexer const& rhs) {
 }
 
 void Lexer::lexExpression(std::string exp, short int reg, int line) {
+    LexerT lexerT;
+    if (reg == 1) {
+        size_t beg, pos = 0;
+        std::vector<std::string> strParts;
+        while ((beg = exp.find_first_not_of(std::string(" ()"), pos)) != std::string::npos) {
+            pos = exp.find_first_of(std::string(" ()"), beg + 1);
+            strParts.push_back(exp.substr(beg, pos - beg));
+        }
+        lexerT.lexE = _lexMap[strParts[0]];
+        lexerT.line = line;
+        lexerT.type = _operandMap[strParts[1]];
+        lexerT.value = strParts[2];
+        _lexers.push_back(lexerT);
+    } else {
+        lexerT.lexE =
+    }
 }

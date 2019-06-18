@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:31:18 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 09:00:19 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 12:05:31 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ typedef enum {
     DIV,
     MOD,
     COMMENT,
-    PRINT
+    PRINT,
+    EXIT,
+    EXEC
 } LexE;
 
 typedef struct LexerS {
@@ -38,7 +40,9 @@ typedef struct LexerS {
 
 class Lexer {
    private:
-    std::vector<LexerT> lexers;
+    std::vector<LexerT> _lexers;
+    std::map<std::string, LexE> _lexMap;
+    std::map<std::string, eOperandType> _operandMap;
 
    public:
     class LexerException : std::exception {
