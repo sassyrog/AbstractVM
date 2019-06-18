@@ -6,14 +6,16 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 13:48:55 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:49:37 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AVM.hpp"
 
 AVM::AVM() {
+    this->_parser = new Parser();
     this->init();
+    _parser->eval();
 }
 
 AVM::AVMException::AVMException() : _exc("AVM Exception") {}
@@ -35,7 +37,9 @@ AVM::AVMException& AVM::AVMException::operator=(AVM::AVMException const& rhs) {
 
 AVM::AVMException::~AVMException() {}
 
-AVM::~AVM() {}
+AVM::~AVM() {
+    delete _parser;
+}
 
 AVM::AVM(AVM const& copy) {
     *this = copy;
@@ -57,10 +61,13 @@ void AVM::init(void) {
 
     while (1) {
         std::getline(std::cin, this->_command);
+        if (_command == ";;")
+            break;
         lineCount++;
         if (std::regex_match(_command, actRe)) {
             std::cout << "Yes" << std::endl;
         } else if (std::regex_match(_command, mathRe)) {
+            new Parser(_command, 2, lineCount);
             std::cout << "Yes" << std::endl;
         } else if (std::regex_match(_command, commRe)) {
             std::cout << "Yes" << std::endl;

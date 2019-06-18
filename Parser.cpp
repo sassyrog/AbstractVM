@@ -6,11 +6,13 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:19:39 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 14:59:15 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Parser.hpp"
+
+Lexer Parser::_lexer;
 
 Parser::Parser() {
     _lexFuncs[DUMP] = &Parser::pDump;
@@ -49,7 +51,9 @@ Parser::ParserException& Parser::ParserException::operator=(Parser::ParserExcept
     return *this;
 }
 
-Parser::~Parser() {}
+Parser::~Parser() {
+    std::cout << "----->" << std::endl;
+}
 
 Parser::Parser(Parser const& copy) {
     *this = copy;
@@ -66,6 +70,9 @@ void Parser::pDump() {
 void Parser::pPush() {
 }
 void Parser::pPop() {
+    if (_stack.size() < 1)
+        throw Parser::ParserException();
+    std::cout << "pop------------------>" << std::endl;
 }
 void Parser::pAssert() {
 }
@@ -86,4 +93,18 @@ void Parser::pPrint() {
 void Parser::pExit() {
 }
 void Parser::pExecute() {
+}
+
+void Parser::eval() {
+    lexFunctions::iterator it = this->_lexFuncs.begin();
+
+    std::cout << "HERE" << std::endl;
+    try {
+        while (it != this->_lexFuncs.end()) {
+            (this->*it->second)();
+            it++;
+        }
+    } catch (Parser::ParserException& e) {
+        std::cerr << e.what() << '\n';
+    }
 }
