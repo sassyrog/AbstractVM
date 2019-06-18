@@ -6,11 +6,12 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 15:12:14 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 16:34:56 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Lexer.hpp"
+// #include ""
 
 Lexer::Lexer() {
     _lexMap["dump"] = LexE::DUMP;
@@ -63,10 +64,10 @@ Lexer& Lexer::operator=(Lexer const& rhs) {
 }
 
 void Lexer::lexExpression(std::string exp, short int reg, int line) {
-    std::stringstream trimmer;
-    trimmer << exp;
-    exp.clear();
-    trimmer >> exp;
+    while (exp.compare(0, 1, " ") == 0)
+        exp.erase(exp.begin());  // remove leading whitespaces
+    while (exp.size() > 0 && exp.compare(exp.size() - 1, 1, " ") == 0)
+        exp.erase(exp.end() - 1);  // remove trailing whitespaces
     LexerT lexerT;
     if (reg == 1) {
         size_t beg, pos = 0;
@@ -80,8 +81,13 @@ void Lexer::lexExpression(std::string exp, short int reg, int line) {
         lexerT.type = _operandMap[strParts[1]];
         lexerT.value = strParts[2];
         _lexers.push_back(lexerT);
-    } else {
+    } else if (reg == 2) {
+        std::cout << "/* message */" << std::endl;
         lexerT.lexE = _lexMap[exp];
+        _lexers.push_back(lexerT);
+    } else if (reg == 3) {
+        lexerT.lexE = _lexMap[";"];
+        lexerT.value = exp;
         _lexers.push_back(lexerT);
     }
 }

@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:24:31 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:39:09 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 15:59:22 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class Parser {
    private:
     static Lexer _lexer;
     std::vector<LexerT> _lexers;
+    LexerT _currLex;
     // std::vector<std::function<void(int)>> _toExecute;
     lexFunctions _lexFuncs;
     std::vector<IOperand *> _stack;

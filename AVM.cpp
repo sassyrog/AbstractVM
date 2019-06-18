@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 15:16:17 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 16:33:43 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 AVM::AVM() {
     this->_parser = new Parser();
     this->init();
-    _parser->eval();
+    // _parser->eval();
 }
 
 AVM::AVMException::AVMException() : _exc("AVM Exception") {}
@@ -61,16 +61,19 @@ void AVM::init(void) {
 
     while (1) {
         std::getline(std::cin, this->_command);
-        if (_command == ";;")
-            break;
+
         lineCount++;
         if (std::regex_match(_command, actRe)) {
             new Parser(_command, 1, lineCount);
         } else if (std::regex_match(_command, mathRe)) {
             new Parser(_command, 2, lineCount);
         } else if (std::regex_match(_command, commRe)) {
-            std::cout << "Yes" << std::endl;
-        } else  // if ()
-            std::cout << "line " << lineCount << " - No" << std::endl;
+            new Parser(_command, 3, lineCount);
+        } else {
+            new Parser(_command, -1, lineCount);
+
+            // std::cout << "line " << lineCount << " - No" << std::endl;
+            // break;
+        }
     }
 }

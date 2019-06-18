@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 15:15:10 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/18 16:36:51 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ Parser& Parser::operator=(Parser const& rhs) {
 void Parser::pDump() {
 }
 void Parser::pPush() {
+    // throw Parser::ParserException();
+    std::cout << "cur === Type : " << _currLex.type << "  line : " << _currLex.line << std::endl;
     std::cout << "Hello there! - JG Zuma" << std::endl;
 }
 void Parser::pPop() {
@@ -89,21 +91,26 @@ void Parser::pDiv() {
 void Parser::pMod() {
 }
 void Parser::pComment() {
+    std::cout << "---> ;" << _currLex.value << std::endl;
 }
 void Parser::pPrint() {
 }
 void Parser::pExit() {
 }
 void Parser::pExecute() {
+    this->eval();
 }
 
 void Parser::eval() {
     try {
         this->_lexers = _lexer.getLexers();
         for (unsigned long i = 0; i < _lexers.size(); i++) {
+            std::cout << "lex = " << _lexers[i].value << std::endl;
             lexFunctions::iterator it;
             it = this->_lexFuncs.find(_lexers[i].lexE);
             if (it != _lexFuncs.end()) {
+                std::cout << "+++++++++++++++++" << std::endl;
+                _currLex = _lexers[i];
                 (this->*it->second)();
             }
         }
