@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 19:37:27 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/20 19:45:18 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,13 @@ class Operands : public IOperand {
         try {
             eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
             int precision = (_precision >= rhs.getPrecision()) ? _precision : rhs.getPrecision();
-            if (type < Float) {
-                long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
+            if (type >= Float) {
+                double tmpVal = std::stold(_string) + std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
                 return (_factory->createOperand(type, makeString(tmpVal, precision));
             } else {
-                double tmpVal = std::stold(_string) + std::stold(rhs.toString());
+                long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
                 return (_factory->createOperand(type, makeString(tmpVal, precision));
