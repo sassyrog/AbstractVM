@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Operands.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 10:31:36 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/20 19:37:27 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,27 @@ class Operands : public IOperand {
     Operands(){};
     Operands(eOperandType type, std::string value, int precision)
         : _precision(precision), _type(type) {
-        long long tmpV;
-        if (type < Float) {
-            tmpV = std::stoll(value);
-            if (this->overflowCheck(tmpV)) {
-                throw Operands::OperandsException("Overflow");
+        try {
+            if (type < Float) {
+                long long tmpV = std::stoll(value);
+                if (this->overflowCheck(tmpV, type)) {
+                    throw Operands::OperandsException("Overflow");
+                }
+                this->_val = static_cast<T>(tmpV);
+                _string = makeString(_val, _precision);
+            } else {
+                double tmpV = std::stold(value);
+                if (this->overflowCheck(tmpV, type)) {
+                    throw Operands::OperandsException("Overflow");
+                }
+                this->_val = static_cast<T>(tmpV);
+                _string = makeString(_val, _precision);
             }
-            this->_val = static_cast<T>(tmpV);
-        } else {
-            tmpV = std::stold(value);
-            if (this->overflowCheck(tmpV)) {
-                throw Operands::OperandsException("Overflow");
-            }
-            this->_val = static_cast<T>(tmpV);
+
+        } catch (const Operands::OperandsException& e) {
+            std::cerr << e.what() << '\n';
         }
-        _string = makeString(_val, _precision);
+        return;
     };
 
     Operands(Operands const& copy) {
@@ -94,11 +100,28 @@ class Operands : public IOperand {
     };
 
     IOperand const* operator+(IOperand const& rhs) const {
+        try {
+            eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+            int precision = (_precision >= rhs.getPrecision()) ? _precision : rhs.getPrecision();
+            if (type < Float) {
+                long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
+                if (overflowCheck(tmpVal, type))
+                    throw Operands::OperandsException("Overflow");
+                return (_factory->createOperand(type, makeString(tmpVal, precision));
+            } else {
+                double tmpVal = std::stold(_string) + std::stold(rhs.toString());
+                if (overflowCheck(tmpVal, type))
+                    throw Operands::OperandsException("Overflow");
+                return (_factory->createOperand(type, makeString(tmpVal, precision));
+            }
+        } catch (const Operands::OperandsException& e) {
+            std::cerr << e.what() << '\n';
+        }
+        return nullptr;
+    };
+    IOperand const* operator-(IOperand const& rhs) const {
 
     };
-    // IOperand const* operator-(IOperand const& rhs) const {
-
-    // };
     // IOperand const* operator*(IOperand const& rhs) const {
 
     // };
@@ -112,8 +135,8 @@ class Operands : public IOperand {
         return this->_string;
     };
 
-    bool overflowCheck(T val) {
-        switch (this->_type) {
+    bool overflowCheck(T val, eOperandType type) {
+        switch (this->type) {
             case 0:
                 return (val < CHAR_MIN || val > CHAR_MAX);
             case 1:
@@ -131,7 +154,10 @@ class Operands : public IOperand {
     template <typename G>
     std::string makeString(G str, int prec) {
         std::ostringstream ss;
-        ss << std::fixed << std::setprecision(prec) << str;
+        if (prec)
+            ss << std::setprecision(prec) << str;
+        else
+            ss << str;
         std::string s(ss.str());
         return s;
     }
