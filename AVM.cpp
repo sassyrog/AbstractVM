@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 16:33:43 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/20 11:26:18 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ AVM::AVMException& AVM::AVMException::operator=(AVM::AVMException const& rhs) {
     return *this;
 }
 
-AVM::AVMException::~AVMException() {}
+AVM::AVMException::~AVMException() _NOEXCEPT {}
 
 AVM::~AVM() {
     delete _parser;
@@ -53,15 +53,17 @@ AVM& AVM::operator=(AVM const& rhs) {
 
 void AVM::init(void) {
     int lineCount = 0;
+
     std::regex actRe(
         "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|\
         float)(\\([0-9.fd]*\\)))(\\W+|$)");
     std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|;;)(\\W+|$)");
-    std::regex commRe("(\\W+|^)(;)(\\W+(\\S+|$))");
+    std::regex commRe("(\\W+|^)(;)((\\W+|\\S+)(\\S+|$))");
+    std::regex actRe2(
+        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([0-9.fd]*\\)))(\\W+;.*?$|$)");
 
     while (1) {
         std::getline(std::cin, this->_command);
-
         lineCount++;
         if (std::regex_match(_command, actRe)) {
             new Parser(_command, 1, lineCount);
@@ -69,11 +71,10 @@ void AVM::init(void) {
             new Parser(_command, 2, lineCount);
         } else if (std::regex_match(_command, commRe)) {
             new Parser(_command, 3, lineCount);
+        } else if (std::regex_match(_command, actRe2)) {
+            new Parser(_command, 4, lineCount);
         } else {
             new Parser(_command, -1, lineCount);
-
-            // std::cout << "line " << lineCount << " - No" << std::endl;
-            // break;
         }
     }
 }

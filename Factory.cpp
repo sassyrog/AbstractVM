@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:15:47 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/20 10:05:31 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Factory::Factory() {
 
 IOperand const* Factory::createOperand(eOperandType type, std::string const& value) const {
     Creators::const_iterator it;
-    IOperand const* io;
+    IOperand const* io = nullptr;
 
     it = this->_creators.find(type);
     if (it != _creators.end()) {
@@ -41,7 +41,8 @@ const char* Factory::FactoryException::what() const throw() {
     return ("\033[31mSome Exception\033[0m");
 }
 
-Factory::FactoryException& Factory::FactoryException::operator=(Factory::FactoryException const& rhs) {
+Factory::FactoryException&
+Factory::FactoryException::operator=(Factory::FactoryException const& rhs) {
     if (this != &rhs) {
     }
     return *this;
@@ -60,17 +61,17 @@ Factory& Factory::operator=(Factory const& rhs) {
 }
 
 IOperand const* Factory::createInt8(std::string const& value) const {
-    return (new Operands<int8_t>());
+    return (new Operands<char>(Int8, value, 0));
 };
 IOperand const* Factory::createInt16(std::string const& value) const {
-    return (new Operands<int16_t>());
+    return (new Operands<short>(Int16, value, 0));
 };
 IOperand const* Factory::createInt32(std::string const& value) const {
-    return (new Operands<int>());
+    return (new Operands<int>(Int32, value, 0));
 };
 IOperand const* Factory::createFloat(std::string const& value) const {
-    return (new Operands<float>());
+    return (new Operands<float>(Float, value, 7));
 };
 IOperand const* Factory::createDouble(std::string const& value) const {
-    return (new Operands<double>());
+    return (new Operands<double>(Double, value, 15));
 };

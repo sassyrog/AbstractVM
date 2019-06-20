@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 16:34:56 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/20 11:40:29 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,24 @@ void Lexer::lexExpression(std::string exp, short int reg, int line) {
         lexerT.type = _operandMap[strParts[1]];
         lexerT.value = strParts[2];
         _lexers.push_back(lexerT);
+    } else if (reg == 4) {
+        size_t beg, pos = 0;
+        std::vector<std::string> strParts;
+        while ((beg = exp.find_first_not_of(std::string(" ()"), pos)) != std::string::npos) {
+            pos = exp.find_first_of(std::string(" ()"), beg + 1);
+            strParts.push_back(exp.substr(beg, pos - beg));
+        }
+        lexerT.lexE = _lexMap[strParts[0]];
+        lexerT.line = line;
+        lexerT.type = _operandMap[strParts[1]];
+        lexerT.value = strParts[2];
+        _lexers.push_back(lexerT);
+
+        std::string tempStr = exp.substr(exp.find(';'));
+        lexerT.lexE = _lexMap[";"];
+        lexerT.value = tempStr;
+        _lexers.push_back(lexerT);
+
     } else if (reg == 2) {
         std::cout << "/* message */" << std::endl;
         lexerT.lexE = _lexMap[exp];
