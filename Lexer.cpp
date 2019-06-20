@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 11:40:29 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/20 11:41:10 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void Lexer::lexExpression(std::string exp, short int reg, int line) {
         _lexers.push_back(lexerT);
 
     } else if (reg == 2) {
-        std::cout << "/* message */" << std::endl;
         lexerT.lexE = _lexMap[exp];
         _lexers.push_back(lexerT);
     } else if (reg == 3) {
