@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 17:24:19 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 19:59:47 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,9 @@ void AVM::init(void) {
     int lineCount = 0;
 
     std::regex actRe(
-        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|\
-        float)(\\([0-9.fd]*\\)))(\\W+|$)");
-    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+|$)");
-    std::regex commRe("(\\W+|^)(;)((\\W+|\\S+)(\\S+|$))");
-    std::regex actRe2(
-        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([0-9.fd]*\\)))(\\W+;.*?$|$)");
+        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
+    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+;.*?$|$)");
+    std::regex commRe("(\\W+|^)(;)((.*)(\\S+|$))");
 
     while (1) {
         std::getline(std::cin, this->_command);
@@ -78,8 +75,6 @@ void AVM::init(void) {
             new Parser(_command, 2, lineCount);
         } else if (std::regex_match(_command, commRe)) {
             new Parser(_command, 3, lineCount);
-        } else if (std::regex_match(_command, actRe2)) {
-            new Parser(_command, 4, lineCount);
         } else {
             new Parser(_command, -1, lineCount);
         }
