@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:24:31 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 15:59:22 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 17:12:55 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
+#include "Factory.hpp"
 #include "Lexer.hpp"
 
 class Parser {
@@ -21,11 +22,12 @@ class Parser {
 
    private:
     static Lexer _lexer;
+    static std::vector<const IOperand *> _stack;
+    static bool _exit;
     std::vector<LexerT> _lexers;
     LexerT _currLex;
-    // std::vector<std::function<void(int)>> _toExecute;
+    Factory _factory;
     lexFunctions _lexFuncs;
-    std::vector<IOperand *> _stack;
 
     void pDump();
     void pPush();
@@ -56,6 +58,7 @@ class Parser {
     Parser &operator=(Parser const &);
     ~Parser();
     void eval();
+    bool getExit();
 };
 
 #endif  //PARSER_HPP

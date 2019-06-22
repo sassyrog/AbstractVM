@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AVM.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 11:26:18 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 17:24:19 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ AVM::AVMException& AVM::AVMException::operator=(AVM::AVMException const& rhs) {
     return *this;
 }
 
-AVM::AVMException::~AVMException() _NOEXCEPT {}
+AVM::AVMException::~AVMException() {}
 
 AVM::~AVM() {
     delete _parser;
@@ -57,7 +57,7 @@ void AVM::init(void) {
     std::regex actRe(
         "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|\
         float)(\\([0-9.fd]*\\)))(\\W+|$)");
-    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|;;)(\\W+|$)");
+    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+|$)");
     std::regex commRe("(\\W+|^)(;)((\\W+|\\S+)(\\S+|$))");
     std::regex actRe2(
         "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([0-9.fd]*\\)))(\\W+;.*?$|$)");
@@ -65,6 +65,13 @@ void AVM::init(void) {
     while (1) {
         std::getline(std::cin, this->_command);
         lineCount++;
+        if (_command == ";;") {
+            _parser->eval();
+            if (_parser->getExit())
+                break;
+            _command = "";
+            continue;
+        }
         if (std::regex_match(_command, actRe)) {
             new Parser(_command, 1, lineCount);
         } else if (std::regex_match(_command, mathRe)) {

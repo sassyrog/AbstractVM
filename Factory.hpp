@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Factory.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 10:08:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 14:15:13 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 16:52:04 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 #define FACTORY_HPP
 
 #include "IOperand.hpp"
-#include "Operands.hpp"
+class Factory {
+    typedef IOperand const *(Factory::*F)(std::string const &value) const;
+    typedef std::map<eOperandType, F> Creators;
 
-typedef IOperand const *(Factory::*F)(std::string const &value) const;
-typedef std::map<eOperandType, F> Creators;
-
-class Factory : public IOperand {
    private:
     Creators _creators;
 

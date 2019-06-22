@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Factory.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 10:05:31 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 16:54:36 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Factory.hpp"
+#include "Operands.hpp"
 
 Factory::Factory() {
     _creators[Int8] = &Factory::createInt8;
@@ -26,7 +27,7 @@ IOperand const* Factory::createOperand(eOperandType type, std::string const& val
 
     it = this->_creators.find(type);
     if (it != _creators.end()) {
-        io = (it->second()(value));
+        io = (this->*it->second)(value);
     }
     return io;
 };

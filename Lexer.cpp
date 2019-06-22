@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Lexer.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 11:41:10 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 18:29:41 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,8 @@ void Lexer::lexExpression(std::string exp, short int reg, int line) {
 
 std::vector<LexerT>& Lexer::getLexers() {
     return this->_lexers;
+}
+
+void Lexer::clearLexers() {
+    this->_lexers.clear();
 }

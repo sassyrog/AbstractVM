@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AVM.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:01 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 11:07:58 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 16:41:36 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ class AVM {
         AVMException(AVMException const &);
         AVMException &operator=(AVMException const &);
         virtual const char *what() const throw();
-        virtual ~AVMException() _NOEXCEPT;
+        virtual ~AVMException();
     };
 
     AVM();

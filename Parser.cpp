@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 16:36:51 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 18:35:51 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Parser.hpp"
 
 Lexer Parser::_lexer;
+std::vector<const IOperand*> Parser::_stack = {};
+bool Parser::_exit = false;
 
 Parser::Parser() {
     _lexFuncs[DUMP] = &Parser::pDump;
@@ -67,28 +69,83 @@ Parser& Parser::operator=(Parser const& rhs) {
 }
 
 void Parser::pDump() {
+    for (std::vector<const IOperand*>::iterator i = _stack.end(); i-- != _stack.begin();) {
+        std::cout << (*i)->toString() << std::endl;
+    }
 }
 void Parser::pPush() {
-    // throw Parser::ParserException();
-    std::cout << "cur === Type : " << _currLex.type << "  line : " << _currLex.line << std::endl;
-    std::cout << "Hello there! - JG Zuma" << std::endl;
+    this->_stack.push_back(_factory.createOperand(_currLex.type, _currLex.value));
 }
 void Parser::pPop() {
     if (_stack.size() < 1)
         throw Parser::ParserException();
-    std::cout << "pop------------------>" << std::endl;
 }
 void Parser::pAssert() {
 }
 void Parser::pAdd() {
+    if (_stack.size() > 1) {
+        const IOperand* op1 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        const IOperand* op2 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        _stack.push_back(*op1 + *op2);
+        delete op1;
+        delete op2;
+    } else {
+        throw Parser::ParserException();
+    }
 }
 void Parser::pSub() {
+    if (_stack.size() > 1) {
+        const IOperand* op1 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        const IOperand* op2 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        _stack.push_back(*op1 - *op2);
+        delete op1;
+        delete op2;
+    } else {
+        throw Parser::ParserException();
+    }
 }
 void Parser::pMul() {
+    if (_stack.size() > 1) {
+        const IOperand* op1 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        const IOperand* op2 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        _stack.push_back(*op1 * *op2);
+        delete op1;
+        delete op2;
+    } else {
+        throw Parser::ParserException();
+    }
 }
 void Parser::pDiv() {
+    if (_stack.size() > 1) {
+        const IOperand* op1 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        const IOperand* op2 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        _stack.push_back(*op1 / *op2);
+        delete op1;
+        delete op2;
+    } else {
+        throw Parser::ParserException();
+    }
 }
 void Parser::pMod() {
+    if (_stack.size() > 1) {
+        const IOperand* op1 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        const IOperand* op2 = *(_stack.begin());
+        _stack.erase(_stack.begin());
+        _stack.push_back(*op1 % *op2);
+        delete op1;
+        delete op2;
+    } else {
+        throw Parser::ParserException();
+    }
 }
 void Parser::pComment() {
     std::cout << "---> ;" << _currLex.value << std::endl;
@@ -96,25 +153,30 @@ void Parser::pComment() {
 void Parser::pPrint() {
 }
 void Parser::pExit() {
+    this->_exit = true;
 }
 void Parser::pExecute() {
     this->eval();
+}
+
+bool Parser::getExit() {
+    return this->_exit;
 }
 
 void Parser::eval() {
     try {
         this->_lexers = _lexer.getLexers();
         for (unsigned long i = 0; i < _lexers.size(); i++) {
-            std::cout << "lex = " << _lexers[i].value << std::endl;
             lexFunctions::iterator it;
             it = this->_lexFuncs.find(_lexers[i].lexE);
             if (it != _lexFuncs.end()) {
-                std::cout << "+++++++++++++++++" << std::endl;
                 _currLex = _lexers[i];
                 (this->*it->second)();
             }
         }
+        this->_lexer.clearLexers();
     } catch (Parser::ParserException& e) {
         std::cerr << e.what() << '\n';
+        this->_lexer.clearLexers();
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Lexer.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:31:18 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/18 15:07:59 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 17:51:18 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ class Lexer {
     ~Lexer();
     void lexExpression(std::string, short int, int);
     std::vector<LexerT> &getLexers();
+    void clearLexers();
 };
 
 #endif  //LEXER_HPP

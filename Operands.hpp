@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/20 20:00:03 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 18:26:05 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,7 @@ class Operands : public IOperand {
    public:
     class OperandsException : std::exception {
        public:
-        OperandsException(std::string exc) : _exc(exc){};
-        OperandsException(OperandsException const& copy) {
-            *this = copy;
-            return;
-        };
-        OperandsException& operator=(OperandsException const& rhs) {
-            if (this != &rhs) {
-                this->_exc = rhs.getExc();
-            }
-        };
-        std::string getExc(void) {
-            return this->_exc;
-        }
+        OperandsException(const std::string exc) : _exc(exc){};
         const char* what() const throw() {
             return (this->_exc.c_str());
         };
@@ -51,7 +39,7 @@ class Operands : public IOperand {
 
     Operands(){};
     Operands(eOperandType type, std::string value, int precision)
-        : _precision(precision), _type(type) {
+        : _type(type), _precision(precision) {
         try {
             if (type < Float) {
                 long long tmpV = std::stoll(value);
@@ -59,14 +47,14 @@ class Operands : public IOperand {
                     throw Operands::OperandsException("Overflow");
                 }
                 this->_val = static_cast<T>(tmpV);
-                _string = makeString(_val, _precision);
+                _string = makeString(tmpV, _precision);
             } else {
                 double tmpV = std::stold(value);
                 if (this->overflowCheck(tmpV, type)) {
                     throw Operands::OperandsException("Overflow");
                 }
                 this->_val = static_cast<T>(tmpV);
-                _string = makeString(_val, _precision);
+                _string = makeString(tmpV, _precision);
             }
 
         } catch (const Operands::OperandsException& e) {
@@ -107,12 +95,12 @@ class Operands : public IOperand {
                 double tmpVal = std::stold(_string) + std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
@@ -128,12 +116,12 @@ class Operands : public IOperand {
                 double tmpVal = std::stold(_string) - std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) - std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
@@ -149,12 +137,12 @@ class Operands : public IOperand {
                 double tmpVal = std::stold(_string) * std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
-                long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
+                long long tmpVal = std::stoll(_string) * std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
@@ -170,12 +158,12 @@ class Operands : public IOperand {
                 double tmpVal = std::stold(_string) / std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
-                long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
+                long long tmpVal = std::stoll(_string) / std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
@@ -188,15 +176,15 @@ class Operands : public IOperand {
             eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
             int precision = (_precision >= rhs.getPrecision()) ? _precision : rhs.getPrecision();
             if (type >= Float) {
-                double tmpVal = std::stold(_string) % std::stold(rhs.toString());
+                double tmpVal = fmod(std::stold(_string), std::stold(rhs.toString()));
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
-                long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
+                long long tmpVal = std::stoll(_string) % std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
                     throw Operands::OperandsException("Overflow");
-                return (_factory->createOperand(type, makeString(tmpVal, precision));
+                return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
@@ -207,8 +195,9 @@ class Operands : public IOperand {
         return this->_string;
     };
 
-    bool overflowCheck(T val, eOperandType type) {
-        switch (this->type) {
+    template <typename H>
+    bool overflowCheck(H val, eOperandType type) const {
+        switch (type) {
             case 0:
                 return (val < CHAR_MIN || val > CHAR_MAX);
             case 1:
@@ -224,8 +213,8 @@ class Operands : public IOperand {
     }
 
     template <typename G>
-    std::string makeString(G str, int prec) {
-        std::ostringstream ss;
+    std::string makeString(G str, int prec) const {
+        std::ostringstream ss(std::stringstream::out);
         if (prec)
             ss << std::setprecision(prec) << str;
         else
