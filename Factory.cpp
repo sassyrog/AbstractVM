@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 16:54:36 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 20:25:41 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ Factory::FactoryException::operator=(Factory::FactoryException const& rhs) {
     return *this;
 }
 
-Factory::~Factory(void) {}
+Factory::~Factory(void) {
+}
 
 Factory::Factory(Factory const& copy) {
     *this = copy;

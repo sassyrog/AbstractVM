@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 18:26:05 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 20:22:32 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ class Operands : public IOperand {
         return *this;
     };
 
-    ~Operands(){};
+    ~Operands() {
+        std::cout << "jesus!!!!" << std::endl;
+    };
 
     int getPrecision(void) const {
         return this->_precision;
@@ -105,7 +107,7 @@ class Operands : public IOperand {
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
         }
-        return nullptr;
+        return 0;
     };
 
     IOperand const* operator-(IOperand const& rhs) const {
@@ -126,7 +128,7 @@ class Operands : public IOperand {
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
         }
-        return nullptr;
+        return 0;
     };
 
     IOperand const* operator*(IOperand const& rhs) const {
@@ -147,7 +149,7 @@ class Operands : public IOperand {
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
         }
-        return nullptr;
+        return 0;
     };
 
     IOperand const* operator/(IOperand const& rhs) const {
@@ -168,7 +170,7 @@ class Operands : public IOperand {
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
         }
-        return nullptr;
+        return 0;
     };
 
     IOperand const* operator%(IOperand const& rhs) const {
@@ -189,7 +191,7 @@ class Operands : public IOperand {
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
         }
-        return nullptr;
+        return 0;
     };
     std::string const& toString(void) const {
         return this->_string;
@@ -199,7 +201,7 @@ class Operands : public IOperand {
     bool overflowCheck(H val, eOperandType type) const {
         switch (type) {
             case 0:
-                return (val < CHAR_MIN || val > CHAR_MAX);
+                return (val < SCHAR_MIN || val > SCHAR_MAX);
             case 1:
                 return (val < SHRT_MIN || val > SHRT_MAX);
             case 2:
