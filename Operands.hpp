@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 20:22:32 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/22 20:34:49 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,7 @@ class Operands : public IOperand {
         return *this;
     };
 
-    ~Operands() {
-        std::cout << "jesus!!!!" << std::endl;
-    };
+    ~Operands(){};
 
     int getPrecision(void) const {
         return this->_precision;
@@ -207,9 +205,9 @@ class Operands : public IOperand {
             case 2:
                 return (val < INT_MIN || val > INT_MAX);
             case 3:
-                return (val < FLT_MIN || val > FLT_MAX);
+                return (val < -FLT_MAX || val > FLT_MAX);
             case 4:
-                return (val < DBL_MIN || val > DBL_MAX);
+                return (val < -DBL_MAX || val > DBL_MAX);
         }
         return (false);
     }
