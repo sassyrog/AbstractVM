@@ -2,12 +2,14 @@
 #include <regex>
 #include "AVM.hpp"
 
-int main(int ac, char *av[]) {
+int main(int ac, char **av) {
     std::string input;
     if (ac == 1) {
         AVM avm;
     } else {
-        std::cout << av[1] << std::endl;
+        for (int i = 1; i < ac; i++) {
+            AVM avm(av[i]);
+        }
     }
 
     return 0;

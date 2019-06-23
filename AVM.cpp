@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 13:21:59 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 13:46:57 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,21 @@ void trim(std::string& str) {
 AVM::AVM() {
     this->_parser = new Parser();
     this->init();
-    // _parser->eval();
+}
+
+AVM::AVM(std::string file) {
+    std::cout << file << std::endl;
+    this->_parser = new Parser();
+    try {
+        trim(file);
+        if (std::regex_match(file, std::regex(".*?\\.avm"))) {
+            this->initFile(file);
+        } else {
+            throw AVM::AVMException("File has to .avm");
+        }
+    } catch (const AVM::AVMException& e) {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 AVM::AVMException::AVMException() : _exc("AVM Exception") {}
@@ -87,4 +101,31 @@ void AVM::init(void) {
             new Parser(_command, -1, lineCount);
         }
     }
+}
+
+void AVM::initFile(std::string file) {
+    std::ifstream ifs(file);
+    if (ifs.fail()) {
+        std::cout << "\033[31mFailed to open file " << file << "\033[0m" << std::endl;
+        return;
+    }
+
+    int lineCount = 0;
+
+    std::regex actRe(
+        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
+    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+;.*?$|$)");
+    std::regex commRe("(\\W+|^)(;)((.*)(\\S+|$))");
+    do {
+        if (std::regex_match(_command, actRe)) {
+            new Parser(_command, 1, lineCount);
+        } else if (std::regex_match(_command, mathRe)) {
+            new Parser(_command, 2, lineCount);
+        } else if (std::regex_match(_command, commRe)) {
+            new Parser(_command, 3, lineCount);
+        } else {
+            new Parser(_command, -1, lineCount);
+        }
+        std::cout << "+++++" << this->_command << "+++++" << std::endl;
+    } while (std::getline(ifs, this->_command));
 }
