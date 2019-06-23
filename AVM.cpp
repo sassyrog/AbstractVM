@@ -6,11 +6,18 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 19:59:47 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 11:16:40 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AVM.hpp"
+
+void trim(std::string& str) {
+    while (str.compare(0, 1, " ") == 0)
+        str.erase(str.begin());  // remove leading whitespaces
+    while (str.size() > 0 && str.compare(str.size() - 1, 1, " ") == 0)
+        str.erase(str.end() - 1);  // remove trailing whitespaces
+}
 
 AVM::AVM() {
     this->_parser = new Parser();
@@ -61,6 +68,7 @@ void AVM::init(void) {
 
     while (1) {
         std::getline(std::cin, this->_command);
+        trim(_command);
         lineCount++;
         if (_command == ";;") {
             _parser->eval();

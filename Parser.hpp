@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:24:31 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 17:12:55 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 11:46:52 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ class Parser {
 
    public:
     class ParserException : std::exception {
+       private:
+        std::string _exc;
+
        public:
-        ParserException(void);
+        ParserException(std::string);
         ParserException(ParserException const &);
         ParserException &operator=(ParserException const &);
         virtual const char *what() const throw();

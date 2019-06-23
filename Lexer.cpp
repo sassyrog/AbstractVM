@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 19:49:36 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 11:17:14 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,7 @@ Lexer& Lexer::operator=(Lexer const& rhs) {
 }
 
 void Lexer::lexExpression(std::string exp, short int reg, int line) {
-    while (exp.compare(0, 1, " ") == 0)
-        exp.erase(exp.begin());  // remove leading whitespaces
-    while (exp.size() > 0 && exp.compare(exp.size() - 1, 1, " ") == 0)
-        exp.erase(exp.end() - 1);  // remove trailing whitespaces
     LexerT lexerT;
-    // if (reg == 1) {
-    //     size_t beg, pos = 0;
-    //     std::vector<std::string> strParts;
-    //     while ((beg = exp.find_first_not_of(std::string(" ()"), pos)) != std::string::npos) {
-    //         pos = exp.find_first_of(std::string(" ()"), beg + 1);
-    //         strParts.push_back(exp.substr(beg, pos - beg));
-    //     }
-    //     lexerT.lexE = _lexMap[strParts[0]];
-    //     lexerT.line = line;
-    //     lexerT.type = _operandMap[strParts[1]];
-    //     lexerT.value = strParts[2];
-    //     _lexers.push_back(lexerT);
-    // } else
     if (reg == 1) {
         size_t beg, pos = 0;
         std::vector<std::string> strParts;
@@ -94,12 +77,6 @@ void Lexer::lexExpression(std::string exp, short int reg, int line) {
         lexerT.type = _operandMap[strParts[1]];
         lexerT.value = strParts[2];
         _lexers.push_back(lexerT);
-
-        // std::string tempStr = exp.substr(exp.find(';'));
-        // lexerT.lexE = _lexMap[";"];
-        // lexerT.value = tempStr;
-        // _lexers.push_back(lexerT);
-
     } else if (reg == 2) {
         std::string tempStr = (exp.find(' ') != std::string::npos)
                                   ? exp.substr(0, exp.find(' '))

@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 20:21:53 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 11:49:12 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,22 @@ Parser::Parser(std::string expr, short int exprType, int line) {
     this->_lexers = _lexer.getLexers();
 }
 
-Parser::ParserException::ParserException() {}
+Parser::ParserException::ParserException(std::string exc) {
+    this->_exc = "\033[31m" + exc + "\033[0m";
+}
 
 Parser::ParserException::ParserException(Parser::ParserException const& copy) {
     *this = copy;
 }
 
 const char* Parser::ParserException::what() const throw() {
-    return ("\033[31mSome Exception\033[0m");
+    // std::string s = this->_exc;
+    return this->_exc.c_str();
 }
 
 Parser::ParserException& Parser::ParserException::operator=(Parser::ParserException const& rhs) {
     if (this != &rhs) {
+        this->_exc = rhs._exc;
     }
     return *this;
 }
@@ -80,7 +84,7 @@ void Parser::pPush() {
 }
 void Parser::pPop() {
     if (_stack.size() < 1)
-        throw Parser::ParserException();
+        throw Parser::ParserException("Can't pop on an empty stack");
 }
 void Parser::pAssert() {
 }
@@ -94,7 +98,7 @@ void Parser::pAdd() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException();
+        throw Parser::ParserException("Stack must have at least two items to add");
     }
 }
 void Parser::pSub() {
@@ -107,7 +111,7 @@ void Parser::pSub() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException();
+        throw Parser::ParserException("Stack must have at least two items to sub");
     }
 }
 void Parser::pMul() {
@@ -120,7 +124,7 @@ void Parser::pMul() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException();
+        throw Parser::ParserException("Stack must have at least two items to mul");
     }
 }
 void Parser::pDiv() {
@@ -133,7 +137,7 @@ void Parser::pDiv() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException();
+        throw Parser::ParserException("Stack must have at least two items to div");
     }
 }
 void Parser::pMod() {
@@ -146,7 +150,7 @@ void Parser::pMod() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException();
+        throw Parser::ParserException("Stack must have at least two items to mod");
     }
 }
 void Parser::pComment() {

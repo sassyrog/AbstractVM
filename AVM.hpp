@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:01 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 16:41:36 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 11:14:39 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ class AVM {
     void init();
     void initFile();
 };
+
+void trim(std::string &);
 
 #endif  //AVM_HPP
