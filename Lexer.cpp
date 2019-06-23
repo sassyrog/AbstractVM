@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 11:17:14 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 15:48:43 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ Lexer::Lexer() {
     _lexMap["print"] = LexE::PRINT;
     _lexMap["exit"] = LexE::EXIT;
     _lexMap[";;"] = LexE::EXEC;
+    _lexMap["invalid"] = LexE::INVALID;
 
     _operandMap["int8"] = eOperandType::Int8;
     _operandMap["int16"] = eOperandType::Int16;
@@ -85,6 +86,11 @@ void Lexer::lexExpression(std::string exp, short int reg, int line) {
         _lexers.push_back(lexerT);
     } else if (reg == 3) {
         lexerT.lexE = _lexMap[";"];
+        lexerT.value = exp;
+        _lexers.push_back(lexerT);
+    } else if (reg == -1 && exp != "") {
+        lexerT.lexE = _lexMap["invalid"];
+        lexerT.line = line;
         lexerT.value = exp;
         _lexers.push_back(lexerT);
     }

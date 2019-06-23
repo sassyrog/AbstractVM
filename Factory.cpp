@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 13:06:45 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 16:08:50 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@ IOperand const* Factory::createOperand(eOperandType type, std::string const& val
             io = (this->*it->second)(value);
         }
     } catch (const Operands<char>::OperandsException& e) {
-        std::cerr << "INT8 " << e.what() << "\n";
+        std::cerr << "INT8 : " << e.what() << "\n";
     } catch (const Operands<short>::OperandsException& e) {
-        std::cerr << "INT16 " << e.what() << "\n";
+        std::cerr << "INT16 : " << e.what() << "\n";
     } catch (const Operands<int>::OperandsException& e) {
-        std::cerr << "INT32 " << e.what() << "\n";
+        std::cerr << "INT32 : " << e.what() << "\n";
     } catch (const Operands<float>::OperandsException& e) {
-        std::cerr << "FLOAT " << e.what() << "\n";
+        std::cerr << "FLOAT : " << e.what() << "\n";
     } catch (const Operands<double>::OperandsException& e) {
-        std::cerr << "DOUBLE " << e.what() << "\n";
+        std::cerr << "DOUBLE : " << e.what() << "\n";
     }
 
     return io;

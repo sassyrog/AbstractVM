@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:31:18 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 17:51:18 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 15:40:14 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef enum {
     COMMENT,
     PRINT,
     EXIT,
-    EXEC
+    EXEC,
+    INVALID
 } LexE;
 
 typedef struct LexerS {

@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 13:24:08 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 15:51:16 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ Parser::Parser() {
     _lexFuncs[PRINT] = &Parser::pPrint;
     _lexFuncs[EXIT] = &Parser::pExit;
     _lexFuncs[EXEC] = &Parser::pExecute;
+    _lexFuncs[INVALID] = &Parser::pInvalid;
     this->_lexers = _lexer.getLexers();
 }
 
@@ -77,7 +78,7 @@ Parser& Parser::operator=(Parser const& rhs) {
 
 void Parser::pDump() {
     for (std::vector<const IOperand*>::iterator i = _stack.end(); i-- != _stack.begin();) {
-        std::cout << (*i)->toString() << std::endl;
+        std::cout << "\033[32m" << (*i)->toString() << "\033[0m" << std::endl;
     }
 }
 void Parser::pPush() {
@@ -97,6 +98,17 @@ void Parser::pPop() {
     }
 }
 void Parser::pAssert() {
+    if (_stack.size() > 0) {
+        const IOperand* tmpIop = _factory.createOperand(_currLex.type, _currLex.value);
+        const IOperand* tmpIop2 = _stack.back();
+        if (tmpIop->getType() != tmpIop2->getType())
+            throw ParserException("Assertion failed because of different types");
+        if (tmpIop->toString() != tmpIop2->toString())
+            throw ParserException("Assertion failed because of different values");
+        delete tmpIop;
+    } else {
+        throw Parser::ParserException("Can't assert on empty stack");
+    }
 }
 void Parser::pAdd() {
     if (_stack.size() > 1) {
@@ -194,15 +206,28 @@ void Parser::pMod() {
     }
 }
 void Parser::pComment() {
-    std::cout << "---> ;" << _currLex.value << std::endl;
+    // std::cout << "---> ;" << _currLex.value << std::endl;
 }
 void Parser::pPrint() {
+    if (_stack.size() > 0) {
+        const IOperand* tmpIop = _stack.back();
+        if (tmpIop->getType() != Int8)
+            throw ParserException("Can only print 8 bit integers aka chars");
+        std::cout << static_cast<char>(std::stoi(tmpIop->toString())) << std::endl;
+    } else {
+        throw Parser::ParserException("Can't print if the stack is empty");
+    }
 }
 void Parser::pExit() {
     this->_exit = true;
 }
 void Parser::pExecute() {
     this->eval(true);
+}
+void Parser::pInvalid() {
+    std::stringstream s;
+    s << "line " << _currLex.line << " : Invalid syntax";
+    throw Parser::ParserException(s.str());
 }
 
 bool Parser::getExit() {
@@ -211,20 +236,36 @@ bool Parser::getExit() {
 
 void Parser::eval(bool isfile) {
     this->_isFile = isfile;
-    try {
+    if (!_isFile) {
+        try {
+            this->_lexers = _lexer.getLexers();
+            for (unsigned long i = 0; i < _lexers.size(); i++) {
+                lexFunctions::iterator it;
+                it = this->_lexFuncs.find(_lexers[i].lexE);
+                if (it != _lexFuncs.end()) {
+                    _currLex = _lexers[i];
+                    (this->*it->second)();
+                }
+            }
+            this->_lexer.clearLexers();
+        } catch (Parser::ParserException& e) {
+            std::cerr << e.what() << '\n';
+            this->_lexer.clearLexers();
+            this->_exit = (this->_isFile) ? false : true;
+        }
+    } else {
         this->_lexers = _lexer.getLexers();
         for (unsigned long i = 0; i < _lexers.size(); i++) {
-            lexFunctions::iterator it;
-            it = this->_lexFuncs.find(_lexers[i].lexE);
-            if (it != _lexFuncs.end()) {
-                _currLex = _lexers[i];
-                (this->*it->second)();
+            try {
+                lexFunctions::iterator it;
+                it = this->_lexFuncs.find(_lexers[i].lexE);
+                if (it != _lexFuncs.end()) {
+                    _currLex = _lexers[i];
+                    (this->*it->second)();
+                }
+            } catch (const Parser::ParserException& e) {
+                std::cerr << e.what() << '\n';
             }
         }
-        this->_lexer.clearLexers();
-    } catch (Parser::ParserException& e) {
-        std::cerr << e.what() << '\n';
-        this->_lexer.clearLexers();
-        this->_exit = (this->_isFile) ? false : true;
     }
 }

@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:24:31 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 13:20:07 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 15:40:45 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class Parser {
     void pPrint();
     void pExit();
     void pExecute();
+    void pInvalid();
 
    public:
     class ParserException : std::exception {

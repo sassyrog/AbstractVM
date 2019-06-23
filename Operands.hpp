@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 12:52:02 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 16:08:19 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,24 @@ class Operands : public IOperand {
     Operands(){};
     Operands(eOperandType type, std::string value, int precision)
         : _type(type), _precision(precision) {
-        if (type < Float) {
-            long long tmpV = std::stoll(value);
-            if (this->overflowCheck(tmpV, type)) {
-                throw Operands::OperandsException("Overflow or Underflow");
+        try {
+            if (type < Float) {
+                long long tmpV = std::stoll(value);
+                if (this->overflowCheck(tmpV, type)) {
+                    throw Operands::OperandsException("Overflow or Underflow");
+                }
+                this->_val = static_cast<T>(tmpV);
+                _string = makeString(tmpV, _precision);
+            } else {
+                double tmpV = std::stold(value);
+                if (this->overflowCheck(tmpV, type)) {
+                    throw Operands::OperandsException("Overflow or Underflow");
+                }
+                this->_val = static_cast<T>(tmpV);
+                _string = makeString(tmpV, _precision);
             }
-            this->_val = static_cast<T>(tmpV);
-            _string = makeString(tmpV, _precision);
-        } else {
-            double tmpV = std::stold(value);
-            if (this->overflowCheck(tmpV, type)) {
-                throw Operands::OperandsException("Overflow or Underflow");
-            }
-            this->_val = static_cast<T>(tmpV);
-            _string = makeString(tmpV, _precision);
+        } catch (const std::out_of_range& e) {
+            throw Operands::OperandsException("The value passed is waaaay out of range mate");
         }
         return;
     };
