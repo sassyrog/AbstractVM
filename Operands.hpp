@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 20:34:49 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 12:52:02 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ class Operands : public IOperand {
    public:
     class OperandsException : std::exception {
        public:
-        OperandsException(const std::string exc) : _exc(exc){};
+        OperandsException(const std::string exc) {
+            this->_exc = "\033[31m" + exc + "\033[0m";
+        };
         const char* what() const throw() {
             return (this->_exc.c_str());
         };
@@ -40,25 +42,20 @@ class Operands : public IOperand {
     Operands(){};
     Operands(eOperandType type, std::string value, int precision)
         : _type(type), _precision(precision) {
-        try {
-            if (type < Float) {
-                long long tmpV = std::stoll(value);
-                if (this->overflowCheck(tmpV, type)) {
-                    throw Operands::OperandsException("Overflow");
-                }
-                this->_val = static_cast<T>(tmpV);
-                _string = makeString(tmpV, _precision);
-            } else {
-                double tmpV = std::stold(value);
-                if (this->overflowCheck(tmpV, type)) {
-                    throw Operands::OperandsException("Overflow");
-                }
-                this->_val = static_cast<T>(tmpV);
-                _string = makeString(tmpV, _precision);
+        if (type < Float) {
+            long long tmpV = std::stoll(value);
+            if (this->overflowCheck(tmpV, type)) {
+                throw Operands::OperandsException("Overflow or Underflow");
             }
-
-        } catch (const Operands::OperandsException& e) {
-            std::cerr << e.what() << '\n';
+            this->_val = static_cast<T>(tmpV);
+            _string = makeString(tmpV, _precision);
+        } else {
+            double tmpV = std::stold(value);
+            if (this->overflowCheck(tmpV, type)) {
+                throw Operands::OperandsException("Overflow or Underflow");
+            }
+            this->_val = static_cast<T>(tmpV);
+            _string = makeString(tmpV, _precision);
         }
         return;
     };
@@ -94,12 +91,12 @@ class Operands : public IOperand {
             if (type >= Float) {
                 double tmpVal = std::stold(_string) + std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
+                    throw Operands::OperandsException("Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
+                    throw Operands::OperandsException("Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
@@ -115,12 +112,12 @@ class Operands : public IOperand {
             if (type >= Float) {
                 double tmpVal = std::stold(_string) - std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
+                    throw Operands::OperandsException("Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) - std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
+                    throw Operands::OperandsException("Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
@@ -136,12 +133,12 @@ class Operands : public IOperand {
             if (type >= Float) {
                 double tmpVal = std::stold(_string) * std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
+                    throw Operands::OperandsException("Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) * std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
+                    throw Operands::OperandsException("Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
@@ -152,18 +149,22 @@ class Operands : public IOperand {
 
     IOperand const* operator/(IOperand const& rhs) const {
         try {
-            eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
-            int precision = (_precision >= rhs.getPrecision()) ? _precision : rhs.getPrecision();
-            if (type >= Float) {
-                double tmpVal = std::stold(_string) / std::stold(rhs.toString());
-                if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
-                return (_factory.createOperand(type, makeString(tmpVal, precision)));
+            if (std::stold(rhs.toString()) == 0) {
+                throw Operands::OperandsException("Can't do division by zero");
             } else {
-                long long tmpVal = std::stoll(_string) / std::stoll(rhs.toString());
-                if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
-                return (_factory.createOperand(type, makeString(tmpVal, precision)));
+                eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+                int precision = (_precision >= rhs.getPrecision()) ? _precision : rhs.getPrecision();
+                if (type >= Float) {
+                    double tmpVal = std::stold(_string) / std::stold(rhs.toString());
+                    if (overflowCheck(tmpVal, type))
+                        throw Operands::OperandsException("Overflow or Underflow");
+                    return (_factory.createOperand(type, makeString(tmpVal, precision)));
+                } else {
+                    long long tmpVal = std::stoll(_string) / std::stoll(rhs.toString());
+                    if (overflowCheck(tmpVal, type))
+                        throw Operands::OperandsException("Overflow or Underflow");
+                    return (_factory.createOperand(type, makeString(tmpVal, precision)));
+                }
             }
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';
@@ -173,18 +174,22 @@ class Operands : public IOperand {
 
     IOperand const* operator%(IOperand const& rhs) const {
         try {
-            eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
-            int precision = (_precision >= rhs.getPrecision()) ? _precision : rhs.getPrecision();
-            if (type >= Float) {
-                double tmpVal = fmod(std::stold(_string), std::stold(rhs.toString()));
-                if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
-                return (_factory.createOperand(type, makeString(tmpVal, precision)));
+            if (std::stold(rhs.toString()) == 0) {
+                throw Operands::OperandsException("Can't do modulus by zero");
             } else {
-                long long tmpVal = std::stoll(_string) % std::stoll(rhs.toString());
-                if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow");
-                return (_factory.createOperand(type, makeString(tmpVal, precision)));
+                eOperandType type = (_type >= rhs.getType()) ? _type : rhs.getType();
+                int precision = (_precision >= rhs.getPrecision()) ? _precision : rhs.getPrecision();
+                if (type >= Float) {
+                    double tmpVal = fmod(std::stold(_string), std::stold(rhs.toString()));
+                    if (overflowCheck(tmpVal, type))
+                        throw Operands::OperandsException("Overflow or Underflow");
+                    return (_factory.createOperand(type, makeString(tmpVal, precision)));
+                } else {
+                    long long tmpVal = std::stoll(_string) % std::stoll(rhs.toString());
+                    if (overflowCheck(tmpVal, type))
+                        throw Operands::OperandsException("Overflow or Underflow");
+                    return (_factory.createOperand(type, makeString(tmpVal, precision)));
+                }
             }
         } catch (const Operands::OperandsException& e) {
             std::cerr << e.what() << '\n';

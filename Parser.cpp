@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 11:49:12 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 12:52:34 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ void Parser::pDump() {
     }
 }
 void Parser::pPush() {
-    this->_stack.push_back(_factory.createOperand(_currLex.type, _currLex.value));
+    const IOperand* tmpIop = _factory.createOperand(_currLex.type, _currLex.value);
+    if (tmpIop != nullptr)
+        this->_stack.push_back(tmpIop);
+    delete tmpIop;
 }
 void Parser::pPop() {
     if (_stack.size() < 1)
@@ -94,7 +97,9 @@ void Parser::pAdd() {
         _stack.erase(_stack.begin());
         const IOperand* op2 = *(_stack.begin());
         _stack.erase(_stack.begin());
-        _stack.push_back(*op1 + *op2);
+        const IOperand* tmpIop = *op1 + *op2;
+        if (tmpIop != nullptr)
+            this->_stack.push_back(tmpIop);
         delete op1;
         delete op2;
     } else {
