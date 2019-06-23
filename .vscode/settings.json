@@ -63,6 +63,8 @@
         "mutex": "cpp",
         "ratio": "cpp",
         "regex": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "list": "cpp",
+        "iomanip": "cpp"
     }
 }

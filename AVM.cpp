@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 11:16:40 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 13:21:59 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void AVM::init(void) {
         trim(_command);
         lineCount++;
         if (_command == ";;") {
-            _parser->eval();
+            _parser->eval(false);
             if (_parser->getExit())
                 break;
             _command = "";

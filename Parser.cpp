@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 12:52:34 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 13:24:08 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 Lexer Parser::_lexer;
 std::vector<const IOperand*> Parser::_stack = {};
 bool Parser::_exit = false;
+bool Parser::_isFile = false;
 
 Parser::Parser() {
     _lexFuncs[DUMP] = &Parser::pDump;
@@ -83,11 +84,17 @@ void Parser::pPush() {
     const IOperand* tmpIop = _factory.createOperand(_currLex.type, _currLex.value);
     if (tmpIop != nullptr)
         this->_stack.push_back(tmpIop);
-    delete tmpIop;
+    else {
+        delete tmpIop;
+        this->_exit = (this->_isFile) ? false : true;
+    }
 }
 void Parser::pPop() {
     if (_stack.size() < 1)
         throw Parser::ParserException("Can't pop on an empty stack");
+    else {
+        _stack.erase(_stack.end() - 1);
+    }
 }
 void Parser::pAssert() {
 }
@@ -100,6 +107,10 @@ void Parser::pAdd() {
         const IOperand* tmpIop = *op1 + *op2;
         if (tmpIop != nullptr)
             this->_stack.push_back(tmpIop);
+        else {
+            delete tmpIop;
+            this->_exit = (this->_isFile) ? false : true;
+        }
         delete op1;
         delete op2;
     } else {
@@ -112,7 +123,13 @@ void Parser::pSub() {
         _stack.erase(_stack.begin());
         const IOperand* op2 = *(_stack.begin());
         _stack.erase(_stack.begin());
-        _stack.push_back(*op1 - *op2);
+        const IOperand* tmpIop = *op1 - *op2;
+        if (tmpIop != nullptr)
+            this->_stack.push_back(tmpIop);
+        else {
+            delete tmpIop;
+            this->_exit = (this->_isFile) ? false : true;
+        }
         delete op1;
         delete op2;
     } else {
@@ -125,7 +142,13 @@ void Parser::pMul() {
         _stack.erase(_stack.begin());
         const IOperand* op2 = *(_stack.begin());
         _stack.erase(_stack.begin());
-        _stack.push_back(*op1 * *op2);
+        const IOperand* tmpIop = *op1 * *op2;
+        if (tmpIop != nullptr)
+            this->_stack.push_back(tmpIop);
+        else {
+            delete tmpIop;
+            this->_exit = (this->_isFile) ? false : true;
+        }
         delete op1;
         delete op2;
     } else {
@@ -138,7 +161,13 @@ void Parser::pDiv() {
         _stack.erase(_stack.begin());
         const IOperand* op2 = *(_stack.begin());
         _stack.erase(_stack.begin());
-        _stack.push_back(*op1 / *op2);
+        const IOperand* tmpIop = *op1 / *op2;
+        if (tmpIop != nullptr)
+            this->_stack.push_back(tmpIop);
+        else {
+            delete tmpIop;
+            this->_exit = (this->_isFile) ? false : true;
+        }
         delete op1;
         delete op2;
     } else {
@@ -151,7 +180,13 @@ void Parser::pMod() {
         _stack.erase(_stack.begin());
         const IOperand* op2 = *(_stack.begin());
         _stack.erase(_stack.begin());
-        _stack.push_back(*op1 % *op2);
+        const IOperand* tmpIop = *op1 % *op2;
+        if (tmpIop != nullptr)
+            this->_stack.push_back(tmpIop);
+        else {
+            delete tmpIop;
+            this->_exit = (this->_isFile) ? false : true;
+        }
         delete op1;
         delete op2;
     } else {
@@ -167,14 +202,15 @@ void Parser::pExit() {
     this->_exit = true;
 }
 void Parser::pExecute() {
-    this->eval();
+    this->eval(true);
 }
 
 bool Parser::getExit() {
     return this->_exit;
 }
 
-void Parser::eval() {
+void Parser::eval(bool isfile) {
+    this->_isFile = isfile;
     try {
         this->_lexers = _lexer.getLexers();
         for (unsigned long i = 0; i < _lexers.size(); i++) {
@@ -189,5 +225,6 @@ void Parser::eval() {
     } catch (Parser::ParserException& e) {
         std::cerr << e.what() << '\n';
         this->_lexer.clearLexers();
+        this->_exit = (this->_isFile) ? false : true;
     }
 }

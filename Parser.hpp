@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:24:31 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 11:46:52 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 13:20:07 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class Parser {
     static Lexer _lexer;
     static std::vector<const IOperand *> _stack;
     static bool _exit;
+    static bool _isFile;
     std::vector<LexerT> _lexers;
     LexerT _currLex;
     Factory _factory;
@@ -60,7 +61,7 @@ class Parser {
     Parser(Parser const &);
     Parser &operator=(Parser const &);
     ~Parser();
-    void eval();
+    void eval(bool);
     bool getExit();
 };
 

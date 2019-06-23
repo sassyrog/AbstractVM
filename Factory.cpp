@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 12:50:52 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/23 13:06:45 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ IOperand const* Factory::createOperand(eOperandType type, std::string const& val
     Creators::const_iterator it;
     IOperand const* io = nullptr;
 
-    // template <typename T>
     try {
         it = this->_creators.find(type);
         if (it != _creators.end()) {
