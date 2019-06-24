@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 10:09:26 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 11:02:24 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ void Parser::pMin() {
         if (tmpIop->getType() != tmpIop2->getType())
             throw ErrorException("Min check failed because of different types");
         if (std::stold(tmpIop->toString()) < std::stold(tmpIop2->toString())) {
-            Parser::pPop();
+            this->pPop();
             _stack.push_back(tmpIop);
         } else {
             delete tmpIop;
@@ -215,7 +215,7 @@ void Parser::pMax() {
         if (tmpIop->getType() != tmpIop2->getType())
             throw ErrorException("Max check failed because of different types");
         if (std::stold(tmpIop->toString()) < std::stold(tmpIop2->toString())) {
-            Parser::pPop();
+            this->pPop();
             _stack.push_back(tmpIop);
         } else {
             delete tmpIop;

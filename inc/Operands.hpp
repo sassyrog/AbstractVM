@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 10:05:04 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 10:25:03 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ class Operands : public IOperand {
             if (type >= Float) {
                 double tmpVal = std::stold(_string) + std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow or Underflow");
+                    throw Operands::OperandsException("ADD Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) + std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow or Underflow");
+                    throw Operands::OperandsException("ADD Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
@@ -116,12 +116,12 @@ class Operands : public IOperand {
             if (type >= Float) {
                 double tmpVal = std::stold(_string) - std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow or Underflow");
+                    throw Operands::OperandsException("SUB Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) - std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow or Underflow");
+                    throw Operands::OperandsException("SUB Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
@@ -137,12 +137,12 @@ class Operands : public IOperand {
             if (type >= Float) {
                 double tmpVal = std::stold(_string) * std::stold(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow or Underflow");
+                    throw Operands::OperandsException("MUL Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             } else {
                 long long tmpVal = std::stoll(_string) * std::stoll(rhs.toString());
                 if (overflowCheck(tmpVal, type))
-                    throw Operands::OperandsException("Overflow or Underflow");
+                    throw Operands::OperandsException("MUL Overflow or Underflow");
                 return (_factory.createOperand(type, makeString(tmpVal, precision)));
             }
         } catch (const Operands::OperandsException& e) {
@@ -161,12 +161,12 @@ class Operands : public IOperand {
                 if (type >= Float) {
                     double tmpVal = std::stold(_string) / std::stold(rhs.toString());
                     if (overflowCheck(tmpVal, type))
-                        throw Operands::OperandsException("Overflow or Underflow");
+                        throw Operands::OperandsException("DIV Overflow or Underflow");
                     return (_factory.createOperand(type, makeString(tmpVal, precision)));
                 } else {
                     long long tmpVal = std::stoll(_string) / std::stoll(rhs.toString());
                     if (overflowCheck(tmpVal, type))
-                        throw Operands::OperandsException("Overflow or Underflow");
+                        throw Operands::OperandsException("DIV Overflow or Underflow");
                     return (_factory.createOperand(type, makeString(tmpVal, precision)));
                 }
             }
@@ -186,12 +186,12 @@ class Operands : public IOperand {
                 if (type >= Float) {
                     double tmpVal = fmod(std::stold(_string), std::stold(rhs.toString()));
                     if (overflowCheck(tmpVal, type))
-                        throw Operands::OperandsException("Overflow or Underflow");
+                        throw Operands::OperandsException("MOD Overflow or Underflow");
                     return (_factory.createOperand(type, makeString(tmpVal, precision)));
                 } else {
                     long long tmpVal = std::stoll(_string) % std::stoll(rhs.toString());
                     if (overflowCheck(tmpVal, type))
-                        throw Operands::OperandsException("Overflow or Underflow");
+                        throw Operands::OperandsException("MOD Overflow or Underflow");
                     return (_factory.createOperand(type, makeString(tmpVal, precision)));
                 }
             }

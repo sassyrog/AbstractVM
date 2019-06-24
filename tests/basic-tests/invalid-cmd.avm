@@ -1,0 +1,5 @@
+; INVALID CMD
+
+push int7(34)
+pp
+exit

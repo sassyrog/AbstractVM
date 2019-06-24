@@ -1,0 +1,17 @@
+; print-roger
+
+push int8(82) ;R
+print
+push int8(29)
+add ; o
+print
+push int8(8)
+sub ; g
+print
+push int8(2)
+sub ; e
+print
+push int8(13)
+add ; r
+print
+exit

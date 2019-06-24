@@ -1,0 +1,8 @@
+; MIN MAX
+
+push double(999.999)
+dump
+min float(999.999) ; different types
+min double(888) ; correct
+dump
+exit

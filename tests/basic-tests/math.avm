@@ -1,0 +1,14 @@
+; MATH
+
+push int8(40)
+push float(50.23343)
+push int32(67)
+dump
+add
+dump
+mul
+dump
+push double(4545454.454545454)
+div
+dump
+exit

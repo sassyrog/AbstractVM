@@ -28,5 +28,15 @@ SRC =	AVM.cpp \
 all: $(NAME)
 
 $(NAME):
-		@$(CC) $(FLAGS) $(INCL)  $(addprefix src/, $(SRC)) -o $(NAME)
-		@printf "\n🌸 \e[1;32m[ ✔ ] avm excecutable made\n\e[0m\n"
+	@$(CC) $(FLAGS) $(INCL)  $(addprefix src/, $(SRC)) -o $(NAME)
+	@printf "\n🌸 \e[1;32m[ ✔ ] avm excecutable made\n\e[0m\n"
+
+clean:
+	@rm -fr $(NAME)
+	@printf "\n🌸 \e[1;31m[ ✔ ] avm excecutable deleted\n\e[0m\n"
+
+fclean: clean
+
+re: fclean all
+
+.PHONY: clean all fclean

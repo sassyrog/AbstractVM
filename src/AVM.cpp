@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 10:09:26 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 10:18:41 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ AVM::AVM(std::string file) {
         if (std::regex_match(file, std::regex(".*?\\.avm"))) {
             this->initFile(file);
         } else {
-            throw ErrorException("File must have .avm extension and be a valid file");
+            throw ErrorException("(" + file + ") File must have .avm extension and be a valid file");
         }
     } catch (const ErrorException& e) {
         std::cerr << e.what() << '\n';

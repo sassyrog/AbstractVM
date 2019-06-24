@@ -1,0 +1,12 @@
+; ASSERTION
+
+push int8(42)
+push float(45.66)
+push double(6666.767)
+dump
+assert int32(3434) ; different types
+pop
+assert float(3434) ; different values
+pop
+assert int8(42) ; same values
+exit

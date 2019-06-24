@@ -1,0 +1,7 @@
+; PUSH INT
+
+push int8(40)
+push int16(30)
+push int32(32467386)
+dump
+exit

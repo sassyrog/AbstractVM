@@ -1,0 +1,11 @@
+; DIV MOD
+
+push float(82.565)
+push int8(0.434)
+dump ; 82.565 / 0.434
+div
+push float(82.565)
+push int8(0.434)
+dump ; 82.565 % 0.434
+mod
+exit
