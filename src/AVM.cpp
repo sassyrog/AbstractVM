@@ -6,11 +6,11 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 09:10:52 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 10:09:26 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AVM.hpp"
+#include "../inc/AVM.hpp"
 
 void trim(std::string& str) {
     while (str.compare(0, 1, " ") == 0)

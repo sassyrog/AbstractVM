@@ -6,12 +6,11 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:52:52 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 10:09:26 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Lexer.hpp"
-// #include ""
+#include "../inc/Lexer.hpp"
 
 Lexer::Lexer() {
     _lexMap["dump"] = LexE::DUMP;

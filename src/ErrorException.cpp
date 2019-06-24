@@ -6,11 +6,11 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 08:19:06 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:30:12 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 10:09:26 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ErrorException.hpp"
+#include "../inc/ErrorException.hpp"
 
 ErrorException::ErrorException() {}
 ErrorException::ErrorException(std::string exc) {

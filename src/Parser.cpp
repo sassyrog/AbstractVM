@@ -6,11 +6,11 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 09:25:36 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 10:09:26 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Parser.hpp"
+#include "../inc/Parser.hpp"
 
 Lexer Parser::_lexer;
 std::vector<const IOperand*> Parser::_stack = {};

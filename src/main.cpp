@@ -1,6 +1,6 @@
 #include <iostream>
 #include <regex>
-#include "AVM.hpp"
+#include "../inc/AVM.hpp"
 
 int main(int ac, char **av) {
     std::string input;

@@ -6,12 +6,12 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:42:23 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 10:09:26 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Factory.hpp"
-#include "Operands.hpp"
+#include "../inc/Factory.hpp"
+#include "../inc/Operands.hpp"
 
 Factory::Factory() {
     _creators[Int8] = &Factory::createInt8;
