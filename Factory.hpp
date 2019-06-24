@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 10:08:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:25:41 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:42:28 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@ class Factory {
     IOperand const *createDouble(std::string const &value) const;
 
    public:
-    class FactoryException : public ErrorException {
-       public:
-        FactoryException(void);
-        FactoryException(FactoryException const &);
-        FactoryException &operator=(FactoryException const &);
-        virtual const char *what() const throw();
-    };
-
     Factory();
     Factory(Factory const &);
     Factory &operator=(Factory const &);

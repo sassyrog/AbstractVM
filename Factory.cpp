@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Factory.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:44:50 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 16:08:50 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:42:23 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,6 @@ IOperand const* Factory::createOperand(eOperandType type, std::string const& val
 
     return io;
 };
-
-Factory::FactoryException::FactoryException() {}
-
-Factory::FactoryException::FactoryException(Factory::FactoryException const& copy) {
-    *this = copy;
-}
-
-const char* Factory::FactoryException::what() const throw() {
-    return ("\033[31mSome Exception\033[0m");
-}
-
-Factory::FactoryException&
-Factory::FactoryException::operator=(Factory::FactoryException const& rhs) {
-    if (this != &rhs) {
-    }
-    return *this;
-}
 
 Factory::~Factory(void) {
 }

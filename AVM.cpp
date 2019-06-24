@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AVM.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 15:52:57 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:41:03 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,12 @@ AVM::AVM(std::string file) {
         if (std::regex_match(file, std::regex(".*?\\.avm"))) {
             this->initFile(file);
         } else {
-            throw AVM::AVMException("File must .avm and be a valid file");
+            throw ErrorException("File must have .avm extension and be a valid file");
         }
-    } catch (const AVM::AVMException& e) {
+    } catch (const ErrorException& e) {
         std::cerr << e.what() << '\n';
     }
 }
-
-AVM::AVMException::AVMException() : _exc("AVM Exception") {}
-AVM::AVMException::AVMException(std::string exc) {
-    this->_exc = "\033[31m" + exc + "\033[0m";
-}
-
-AVM::AVMException::AVMException(AVM::AVMException const& copy) {
-    *this = copy;
-}
-
-const char* AVM::AVMException::what() const throw() {
-    return (this->_exc.c_str());
-}
-
-AVM::AVMException& AVM::AVMException::operator=(AVM::AVMException const& rhs) {
-    if (this != &rhs) {
-    }
-    return *this;
-}
-
-AVM::AVMException::~AVMException() {}
 
 AVM::~AVM() {
     delete _parser;
@@ -111,29 +90,39 @@ void AVM::initFile(std::string file) {
         return;
     }
 
-    int lineCount = 0;
-    bool hasExit = false;
+    try {
+        int lineCount = 0;
+        bool hasExit = false;
+        std::string tempCmd;
 
-    std::regex actRe(
-        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
-    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+;.*?$|$)");
-    std::regex commRe("(\\W+|^)(;)((.*)(\\S+|$))");
-    while (std::getline(ifs, this->_command)) {
-        trim(_command);
-        lineCount++;
-        if (_parser->getExit())
-            break;
-        if (std::regex_match(_command, actRe)) {
-            new Parser(_command, 1, lineCount);
-        } else if (std::regex_match(_command, mathRe)) {
-            hasExit = (_command == "exit") ? true : false;
-            new Parser(_command, 2, lineCount);
-        } else if (std::regex_match(_command, commRe)) {
-            new Parser(_command, 3, lineCount);
-        } else {
-            new Parser(_command, -1, lineCount);
+        std::regex actRe(
+            "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
+        std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+;.*?$|$)");
+        std::regex commRe("(\\W+|^)(;)((.*)(\\S+|$))");
+        while (std::getline(ifs, this->_command)) {
+            trim(_command);
+            if (_command != "")
+                tempCmd = _command;
+            lineCount++;
+            if (_parser->getExit())
+                break;
+            if (std::regex_match(_command, actRe)) {
+                new Parser(_command, 1, lineCount);
+            } else if (std::regex_match(_command, mathRe)) {
+                hasExit = (_command == "exit") ? true : false;
+                new Parser(_command, 2, lineCount);
+            } else if (std::regex_match(_command, commRe)) {
+                new Parser(_command, 3, lineCount);
+            } else {
+                new Parser(_command, -1, lineCount);
+            }
         }
+        if (hasExit || tempCmd == "exit")
+            _parser->eval(true);
+        else {
+            throw ErrorException("No last exit command");
+        }
+    } catch (const ErrorException& e) {
+        std::cerr << e.what() << '\n';
     }
-    if (hasExit)
-        _parser->eval(true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 15:51:16 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:45:16 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,6 @@ Parser::Parser() {
 Parser::Parser(std::string expr, short int exprType, int line) {
     this->_lexer.lexExpression(expr, exprType, line);
     this->_lexers = _lexer.getLexers();
-}
-
-Parser::ParserException::ParserException(std::string exc) {
-    this->_exc = "\033[31m" + exc + "\033[0m";
-}
-
-Parser::ParserException::ParserException(Parser::ParserException const& copy) {
-    *this = copy;
-}
-
-const char* Parser::ParserException::what() const throw() {
-    // std::string s = this->_exc;
-    return this->_exc.c_str();
-}
-
-Parser::ParserException& Parser::ParserException::operator=(Parser::ParserException const& rhs) {
-    if (this != &rhs) {
-        this->_exc = rhs._exc;
-    }
-    return *this;
 }
 
 Parser::~Parser() {
@@ -92,7 +72,7 @@ void Parser::pPush() {
 }
 void Parser::pPop() {
     if (_stack.size() < 1)
-        throw Parser::ParserException("Can't pop on an empty stack");
+        throw ErrorException("Can't pop on an empty stack");
     else {
         _stack.erase(_stack.end() - 1);
     }
@@ -102,12 +82,12 @@ void Parser::pAssert() {
         const IOperand* tmpIop = _factory.createOperand(_currLex.type, _currLex.value);
         const IOperand* tmpIop2 = _stack.back();
         if (tmpIop->getType() != tmpIop2->getType())
-            throw ParserException("Assertion failed because of different types");
+            throw ErrorException("Assertion failed because of different types");
         if (tmpIop->toString() != tmpIop2->toString())
-            throw ParserException("Assertion failed because of different values");
+            throw ErrorException("Assertion failed because of different values");
         delete tmpIop;
     } else {
-        throw Parser::ParserException("Can't assert on empty stack");
+        throw ErrorException("Can't assert on empty stack");
     }
 }
 void Parser::pAdd() {
@@ -126,7 +106,7 @@ void Parser::pAdd() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException("Stack must have at least two items to add");
+        throw ErrorException("Stack must have at least two items to add");
     }
 }
 void Parser::pSub() {
@@ -145,7 +125,7 @@ void Parser::pSub() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException("Stack must have at least two items to sub");
+        throw ErrorException("Stack must have at least two items to sub");
     }
 }
 void Parser::pMul() {
@@ -164,7 +144,7 @@ void Parser::pMul() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException("Stack must have at least two items to mul");
+        throw ErrorException("Stack must have at least two items to mul");
     }
 }
 void Parser::pDiv() {
@@ -183,7 +163,7 @@ void Parser::pDiv() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException("Stack must have at least two items to div");
+        throw ErrorException("Stack must have at least two items to div");
     }
 }
 void Parser::pMod() {
@@ -202,7 +182,7 @@ void Parser::pMod() {
         delete op1;
         delete op2;
     } else {
-        throw Parser::ParserException("Stack must have at least two items to mod");
+        throw ErrorException("Stack must have at least two items to mod");
     }
 }
 void Parser::pComment() {
@@ -212,10 +192,10 @@ void Parser::pPrint() {
     if (_stack.size() > 0) {
         const IOperand* tmpIop = _stack.back();
         if (tmpIop->getType() != Int8)
-            throw ParserException("Can only print 8 bit integers aka chars");
+            throw ErrorException("Can only print 8 bit integers aka chars");
         std::cout << static_cast<char>(std::stoi(tmpIop->toString())) << std::endl;
     } else {
-        throw Parser::ParserException("Can't print if the stack is empty");
+        throw ErrorException("Can't print if the stack is empty");
     }
 }
 void Parser::pExit() {
@@ -227,7 +207,7 @@ void Parser::pExecute() {
 void Parser::pInvalid() {
     std::stringstream s;
     s << "line " << _currLex.line << " : Invalid syntax";
-    throw Parser::ParserException(s.str());
+    throw ErrorException(s.str());
 }
 
 bool Parser::getExit() {
@@ -248,7 +228,7 @@ void Parser::eval(bool isfile) {
                 }
             }
             this->_lexer.clearLexers();
-        } catch (Parser::ParserException& e) {
+        } catch (ErrorException& e) {
             std::cerr << e.what() << '\n';
             this->_lexer.clearLexers();
             this->_exit = (this->_isFile) ? false : true;
@@ -263,7 +243,7 @@ void Parser::eval(bool isfile) {
                     _currLex = _lexers[i];
                     (this->*it->second)();
                 }
-            } catch (const Parser::ParserException& e) {
+            } catch (const ErrorException& e) {
                 std::cerr << e.what() << '\n';
             }
         }

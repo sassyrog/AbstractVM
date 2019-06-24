@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:01 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:25:41 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:40:21 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ class AVM {
     Parser *_parser;
 
    public:
-    class AVMException : public ErrorException {
-       private:
-        std::string _exc;
-
-       public:
-        AVMException(void);
-        AVMException(std::string);
-        AVMException(AVMException const &);
-        AVMException &operator=(AVMException const &);
-        virtual const char *what() const throw();
-        virtual ~AVMException();
-    };
-
     AVM();
     AVM(std::string);
     AVM(AVM const &);

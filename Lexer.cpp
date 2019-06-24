@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Lexer.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 15:48:43 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:43:06 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,6 @@ Lexer::Lexer() {
     _operandMap["int32"] = eOperandType::Int32;
     _operandMap["float"] = eOperandType::Float;
     _operandMap["double"] = eOperandType::Double;
-}
-
-Lexer::LexerException::LexerException() {}
-
-Lexer::LexerException::LexerException(Lexer::LexerException const& copy) {
-    *this = copy;
-}
-
-const char* Lexer::LexerException::what() const throw() {
-    return ("\033[31mSome Exception\033[0m");
-}
-
-Lexer::LexerException& Lexer::LexerException::operator=(Lexer::LexerException const& rhs) {
-    if (this != &rhs) {
-    }
-    return *this;
 }
 
 Lexer::~Lexer() {}
