@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Lexer.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:31:18 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 15:40:14 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:25:41 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ class Lexer {
     std::map<std::string, eOperandType> _operandMap;
 
    public:
-    class LexerException : std::exception {
+    class LexerException : public ErrorException {
        public:
         LexerException(void);
         LexerException(LexerException const &);

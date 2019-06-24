@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Factory.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 10:08:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/22 16:52:04 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:25:41 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ class Factory {
     IOperand const *createDouble(std::string const &value) const;
 
    public:
-    class FactoryException : std::exception {
+    class FactoryException : public ErrorException {
        public:
         FactoryException(void);
         FactoryException(FactoryException const &);

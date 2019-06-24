@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Operands.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 12:46:02 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 16:08:19 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:24:19 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Operands : public IOperand {
     Factory _factory;
 
    public:
-    class OperandsException : std::exception {
+    class OperandsException : public ErrorException {
        public:
         OperandsException(const std::string exc) {
             this->_exc = "\033[31m" + exc + "\033[0m";

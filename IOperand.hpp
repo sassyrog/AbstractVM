@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IOperand.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Roger Ndaba <rogerndaba@gmil.com>          +#+  +:+       +#+        */
+/*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 11:58:28 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/23 13:27:50 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:24:10 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "ErrorException.hpp"
 
 enum eOperandType {
     Int8,
