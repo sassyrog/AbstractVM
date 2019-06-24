@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 08:32:09 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:43:06 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 08:52:52 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ Lexer::Lexer() {
     _lexMap["exit"] = LexE::EXIT;
     _lexMap[";;"] = LexE::EXEC;
     _lexMap["invalid"] = LexE::INVALID;
+    _lexMap["min"] = LexE::MIN;
+    _lexMap["max"] = LexE::MAX;
 
     _operandMap["int8"] = eOperandType::Int8;
     _operandMap["int16"] = eOperandType::Int16;

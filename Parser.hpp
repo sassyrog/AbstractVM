@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:24:31 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:45:21 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 09:09:03 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ class Parser {
     void pExit();
     void pExecute();
     void pInvalid();
+    void pMin();
+    void pMax();
 
    public:
     Parser();
@@ -53,6 +55,7 @@ class Parser {
     ~Parser();
     void eval(bool);
     bool getExit();
+    void setExit(bool);
 };
 
 #endif  //PARSER_HPP

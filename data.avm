@@ -2,7 +2,7 @@
  ; sample.avm -
  ; -------------
  
- push int8(45454))
+ push int8(64)
  push int32(33)
  add
  push float(44.55)
@@ -12,3 +12,4 @@
  dump
  pop
  assert double(42.42)
+ exit

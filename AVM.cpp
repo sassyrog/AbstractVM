@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 19:00:45 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:41:03 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 09:10:52 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,33 +53,41 @@ AVM& AVM::operator=(AVM const& rhs) {
 }
 
 void AVM::init(void) {
-    int lineCount = 0;
+    try {
+        int lineCount = 0;
+        std::regex actRe(
+            "(\\W+|^)(push|assert|min|max)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
+        std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+;.*?$|$)");
+        std::regex commRe("(\\W+|^)(;)((.*)(\\S+|$))");
 
-    std::regex actRe(
-        "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
-    std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+;.*?$|$)");
-    std::regex commRe("(\\W+|^)(;)((.*)(\\S+|$))");
-
-    while (1) {
-        std::getline(std::cin, this->_command);
-        trim(_command);
-        lineCount++;
-        if (_command == ";;") {
-            _parser->eval(false);
-            if (_parser->getExit())
-                break;
-            _command = "";
-            continue;
+        while (1) {
+            std::getline(std::cin, this->_command);
+            trim(_command);
+            lineCount++;
+            if (_command == ";;") {
+                if (_parser->getExit()) {
+                    _parser->eval(false);
+                    break;
+                } else {
+                    throw ErrorException("No last exit command");
+                }
+                _command = "";
+                continue;
+            }
+            if (std::regex_match(_command, actRe)) {
+                new Parser(_command, 1, lineCount);
+            } else if (std::regex_match(_command, mathRe)) {
+                if (_command == "exit")
+                    _parser->setExit(true);
+                new Parser(_command, 2, lineCount);
+            } else if (std::regex_match(_command, commRe)) {
+                new Parser(_command, 3, lineCount);
+            } else {
+                new Parser(_command, -1, lineCount);
+            }
         }
-        if (std::regex_match(_command, actRe)) {
-            new Parser(_command, 1, lineCount);
-        } else if (std::regex_match(_command, mathRe)) {
-            new Parser(_command, 2, lineCount);
-        } else if (std::regex_match(_command, commRe)) {
-            new Parser(_command, 3, lineCount);
-        } else {
-            new Parser(_command, -1, lineCount);
-        }
+    } catch (const ErrorException& e) {
+        std::cerr << e.what() << '\n';
     }
 }
 
@@ -96,7 +104,7 @@ void AVM::initFile(std::string file) {
         std::string tempCmd;
 
         std::regex actRe(
-            "(\\W+|^)(push|assert)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
+            "(\\W+|^)(push|assert|min|max)\\W+((int(8|16|32)|double|float)(\\([-0-9.fd]*\\)))(\\W+;.*?$|$)");
         std::regex mathRe("(\\W+|^)(pop|add|mul|sub|div|mod|print|dump|exit)(\\W+;.*?$|$)");
         std::regex commRe("(\\W+|^)(;)((.*)(\\S+|$))");
         while (std::getline(ifs, this->_command)) {

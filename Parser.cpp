@@ -6,7 +6,7 @@
 /*   By: Roger Ndaba <rogerndaba@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 13:37:41 by Roger Ndaba       #+#    #+#             */
-/*   Updated: 2019/06/24 08:45:16 by Roger Ndaba      ###   ########.fr       */
+/*   Updated: 2019/06/24 09:25:36 by Roger Ndaba      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ Parser::Parser() {
     _lexFuncs[EXIT] = &Parser::pExit;
     _lexFuncs[EXEC] = &Parser::pExecute;
     _lexFuncs[INVALID] = &Parser::pInvalid;
+    _lexFuncs[MIN] = &Parser::pMin;
+    _lexFuncs[MAX] = &Parser::pMax;
     this->_lexers = _lexer.getLexers();
 }
 
@@ -188,6 +190,41 @@ void Parser::pMod() {
 void Parser::pComment() {
     // std::cout << "---> ;" << _currLex.value << std::endl;
 }
+
+void Parser::pMin() {
+    if (_stack.size() > 0) {
+        const IOperand* tmpIop = _factory.createOperand(_currLex.type, _currLex.value);
+        const IOperand* tmpIop2 = _stack.back();
+        if (tmpIop->getType() != tmpIop2->getType())
+            throw ErrorException("Min check failed because of different types");
+        if (std::stold(tmpIop->toString()) < std::stold(tmpIop2->toString())) {
+            Parser::pPop();
+            _stack.push_back(tmpIop);
+        } else {
+            delete tmpIop;
+        }
+    } else {
+        throw ErrorException("Can't assert on empty stack");
+    }
+}
+
+void Parser::pMax() {
+    if (_stack.size() > 0) {
+        const IOperand* tmpIop = _factory.createOperand(_currLex.type, _currLex.value);
+        const IOperand* tmpIop2 = _stack.back();
+        if (tmpIop->getType() != tmpIop2->getType())
+            throw ErrorException("Max check failed because of different types");
+        if (std::stold(tmpIop->toString()) < std::stold(tmpIop2->toString())) {
+            Parser::pPop();
+            _stack.push_back(tmpIop);
+        } else {
+            delete tmpIop;
+        }
+    } else {
+        throw ErrorException("Can't assert on empty stack");
+    }
+}
+
 void Parser::pPrint() {
     if (_stack.size() > 0) {
         const IOperand* tmpIop = _stack.back();
@@ -213,6 +250,10 @@ void Parser::pInvalid() {
 bool Parser::getExit() {
     return this->_exit;
 }
+
+void Parser::setExit(bool exit) {
+    this->_exit = exit;
+};
 
 void Parser::eval(bool isfile) {
     this->_isFile = isfile;
